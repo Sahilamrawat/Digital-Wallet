@@ -65,3 +65,24 @@
   background-color: #c5c5c530;
   cursor: pointer;
 }
+.input-fields{
+  padding: 10px 15px;
+  margin: 10px;
+  outline: none;
+  border: none;
+  border-radius: 6px;
+  background-color: #F6F4F0;
+
+}
+
+.input-fields::placeholder{
+  text-align: center;
+  color: #2E5077;
+}
+.input-tags{
+  color: #2E5077;
+  position: relative;
+  left: -4rem;
+  bottom: -0.5rem;
+}
+
