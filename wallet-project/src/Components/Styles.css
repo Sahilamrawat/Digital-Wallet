@@ -1,0 +1,67 @@
+.link-item li:hover{
+    border-bottom: 1px solid #4DA1A9;
+    
+}
+
+.link-item li{
+    padding: 5px;
+    cursor: pointer;
+}
+.nav-section{
+    width: 100%;
+    /* border-radius:5px ; */
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border */
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 2px 4px 0 rgba(0, 0, 0, 0.19);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.profile-dropdown {
+  transition: opacity 1s ease, transform 1s ease;
+  transform: translateY(10);
+  opacity: 10;
+  padding: 3px 15px;
+  border-radius: 5px;
+}
+
+.profile-dropdown.block {
+  transform: translateY(0);
+  
+  opacity: 1;
+}
+
+/* Nav section */
+
+
+/* Dropdown list items */
+.profile-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-dropdown li {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 2px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+/* Hover effects */
+.profile-dropdown li:hover {
+  border-bottom: 2px solid #79D7BE60;
+  color: #2E5077;
+  
+}
+
+
+.cards:hover{
+  background-color: #2E507730;
+  cursor: pointer;
+}
+.cards-white:hover{
+  background-color: #c5c5c530;
+  cursor: pointer;
+}
