@@ -72,7 +72,7 @@ function Navheader() {
           </li>
           
           <li className="relative cursor-pointer " onClick={services_toggleDropdown}>
-            Account
+            My Account
             <ProfileDropDown isOpen={services_dropdownOpen} />
           </li>
           <li className="cursor-pointer">About</li>

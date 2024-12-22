@@ -66,12 +66,12 @@
   cursor: pointer;
 }
 .input-fields{
-  padding: 10px 15px;
+  padding: 5px 10px;
   margin: 10px;
   outline: none;
   border: none;
-  border-radius: 6px;
-  background-color: #F6F4F0;
+  border-radius: 4px;
+  background-color: #ffffff;
 
 }
 
@@ -85,7 +85,13 @@
   left: -4rem;
   bottom: -0.5rem;
 }
-/* .form-container{
+.form-container{
   background: rgb(255,255,255);
-  background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgb(0, 119, 255) 100%, rgba(252,176,69,1) 100%);
-} */
+  background: linear-gradient(90deg, rgba(255,255,255,1) -1%, #4DA1A9 100%, rgba(252,176,69,1) 100%);
+}
+.outer-container{
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 2px 4px 0 rgba(0, 0, 0, 0.19);
+}
+.login-btnx ::hover{
+  background-color: white;
+}
