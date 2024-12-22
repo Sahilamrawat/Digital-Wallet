@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import "./Styles.css";
 import logo from "../assets/logo.svg";
 import { useNavigate } from "react-router-dom";
-
+import login_logo from "../assets/login_logo.svg"
 function Login() {
     const [formData, setFormData] = useState({
-        username: "",
+        
         email: "",
         password: "",
     });
@@ -20,7 +20,7 @@ function Login() {
 
     const validateForm = () => {
         const newErrors = {};
-        if (!formData.username.trim()) newErrors.username = "Username is required.";
+        
         if (!formData.email.trim()) {
             newErrors.email = "Email is required.";
         } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
@@ -45,7 +45,8 @@ function Login() {
     };
 
     return (
-        <div className="page-container flex items-center justify-center w-screen h-screen">
+        <div className="page-container bg-[#F6F4F0] flex items-center justify-center w-screen h-screen">
+            <img src={login_logo} className='login-logo w-[400px] h-[400px] mr-10 ' alt="image" />
             <div className="form-container flex flex-col items-center justify-center w-[25%] bg-[#4DA1A9] rounded-lg">
                 <form
                     className="login-page flex flex-col items-center justify-center w-[80%] pt-[10px] mt-10 mb-10"
@@ -61,16 +62,6 @@ function Login() {
                     <h1 className="font-bold text-[20px] text-white pt-2 pb-4">DIGITAL WALLET</h1>
                     <h1 className="font-bold text-[20px] text-white mb-3">Login</h1>
 
-                    {/* Username Field */}
-                    <input
-                        className={`input-fields ${errors.username ? "border-red-500" : ""}`}
-                        type="text"
-                        name="username"
-                        placeholder="Username"
-                        value={formData.username}
-                        onChange={handleInputChange}
-                    />
-                    {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username}</p>}
 
                     {/* Email Field */}
                     <input

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import "./Styles.css";
 import logo from "../assets/logo.svg";
 import { useNavigate } from "react-router-dom";
+import signup from "../assets/sign-up.svg";
 
 function Signup() {
     const [formData, setFormData] = useState({
@@ -54,6 +55,7 @@ function Signup() {
 
     return (
         <div className="page-container flex items-center justify-center w-screen h-screen">
+            <img src={signup} className='login-logo w-[400px] h-[400px] mr-10 ' alt="image" />
             <div className="form-container flex flex-col items-center justify-center w-[35%] bg-[#4DA1A9] rounded-lg">
                 <form
                     className="signup-page flex flex-col items-center justify-center w-[80%] pt-[10px] mt-10 mb-10"

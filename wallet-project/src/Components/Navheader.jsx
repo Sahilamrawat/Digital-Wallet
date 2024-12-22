@@ -5,17 +5,18 @@ import logo from "../assets/logo.svg"
 import LoginIcon from '@mui/icons-material/Login';
 import { useNavigate } from "react-router-dom";
 const ProfileDropDown = ({ isOpen }) => {
+  const navigate = useNavigate();
   return (
     <div className={`profile-dropdown ${isOpen ? 'block' : 'hidden'} w-[max] bg-white text-[#213555] absolute right--1 top-12 rounded-lg shadow-lg`}>
-      <ul className="py-2 flex flex-col items-center">
+      <ul className=" py-2 px-5 flex flex-col items-center">
         <li>Wallet</li>
         <hr />
-        <li>Statements</li>
+        <li>Profile</li>
         <hr />
         
         <li >Settings</li>
         <hr />
-        <li>Logout</li>
+        <li onClick={()=> navigate('/login')}>Logout</li>
 
       </ul>
     </div>
@@ -23,6 +24,7 @@ const ProfileDropDown = ({ isOpen }) => {
 };
 
 const ServicesDropDown = ({ isOpen }) => {
+  const navigate = useNavigate();
   return (
     <div className={`profile-dropdown ${isOpen ? 'block' : 'hidden'} w-[max] bg-white text-[#213555] absolute right--1 top-12 rounded-lg shadow-lg`}>
       <ul className="py-2 flex flex-col items-center">
@@ -30,7 +32,7 @@ const ServicesDropDown = ({ isOpen }) => {
         <hr />
         <li >Approve To Pay</li>
         <hr />
-        <li>Recharge & Pay</li>
+        <li >Recharge & Pay</li>
         <hr />
         <li>Travel & Entertainment</li>
         <hr />
@@ -68,14 +70,15 @@ function Navheader() {
             Services
             <ServicesDropDown isOpen={profile_dropdownOpen}/>
           </li>
-          <li className="cursor-pointer">About</li>
+          
           <li className="relative cursor-pointer " onClick={services_toggleDropdown}>
-            Profile
+            Account
             <ProfileDropDown isOpen={services_dropdownOpen} />
           </li>
+          <li className="cursor-pointer">About</li>
         </ul>
       </div>
-      <div className='signup-btn cursor-pointer flex items-center gap-1 bg-[#4DA1A9] px-5 py-2 rounded-[5px]' onClick={()=>navigate('/login')}>
+      <div className='signup-btn cursor-pointer flex items-center gap-1 bg-[#4DA1A9] px-2 py-1 rounded-[5px]' onClick={()=>navigate('/login')}>
         <button className='font-semibold text-white' >Login</button>
         <LoginIcon  className=' text-white'/>
       </div>
