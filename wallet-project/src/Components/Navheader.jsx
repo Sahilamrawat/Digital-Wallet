@@ -9,7 +9,7 @@ const ProfileDropDown = ({ isOpen }) => {
   return (
     <div className={`profile-dropdown ${isOpen ? 'block' : 'hidden'} w-[max] bg-white text-[#213555] absolute right--1 top-12 rounded-lg shadow-lg`}>
       <ul className=" py-2 px-5 flex flex-col items-center">
-        <li>Wallet</li>
+        <li onClick={()=> navigate('/wallet')}>Wallet</li>
         <hr />
         <li>Profile</li>
         <hr />
@@ -65,17 +65,17 @@ function Navheader() {
       </div>
       <div className='nav-links relative'>
         <ul className="link-item flex gap-6 font-semibold">
-          <li className="cursor-pointer" onClick={() => navigate('/home')}>Home</li>
-          <li className="relative cursor-pointer" onClick={profile_toggleDropdown}>
+          <li className="cursor-pointer hover:scale-105 transition-transform duration-100" onClick={() => navigate('/home')}>Home</li>
+          <li className="relative cursor-pointer hover:scale-105 transition-transform duration-100" onClick={profile_toggleDropdown}>
             Services
             <ServicesDropDown isOpen={profile_dropdownOpen}/>
           </li>
           
-          <li className="relative cursor-pointer " onClick={services_toggleDropdown}>
+          <li className="relative cursor-pointer hover:scale-105 transition-transform duration-100" onClick={services_toggleDropdown}>
             My Account
             <ProfileDropDown isOpen={services_dropdownOpen} />
           </li>
-          <li className="cursor-pointer">About</li>
+          <li className="cursor-pointer hover:scale-105 transition-transform duration-100">About</li>
         </ul>
       </div>
       <div className='signup-btn cursor-pointer flex items-center gap-1 bg-[#4DA1A9] px-2 py-1 rounded-[5px]' onClick={()=>navigate('/login')}>

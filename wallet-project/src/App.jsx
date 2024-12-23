@@ -8,7 +8,10 @@ import "./index.css"
 import { BrowserRouter ,Routes, Route } from 'react-router-dom'
 import Login from './Components/Login'
 import Signup from './Components/Signup'
+import Wallet from './Components/Wallet'
 function App() {
+
+  
 
   return (
     <div>
@@ -18,6 +21,7 @@ function App() {
           <Route path="/home" element={<Home/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/signup" element={<Signup/>}/>
+          <Route path="/wallet" element={<Wallet/>}/>
         </Routes>
       </BrowserRouter>
     </div>

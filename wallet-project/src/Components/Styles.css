@@ -1,5 +1,6 @@
 .link-item li:hover{
     border-bottom: 1px solid #4DA1A9;
+   
     
 }
 
@@ -21,7 +22,7 @@
   transition: opacity 1s ease, transform 1s ease;
   transform: translateY(10);
   opacity: 10;
-  padding: 3px 15px;
+  padding: 3px 25px;
   border-radius: 5px;
 }
 
@@ -89,8 +90,8 @@
   background: rgb(255,255,255);
   background: linear-gradient(90deg, rgba(255,255,255,1) -1%, #4DA1A9 100%, rgba(252,176,69,1) 100%);
 }
-.outer-container{
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 2px 4px 0 rgba(0, 0, 0, 0.19);
+.outer-container,.main-wallet{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 4px 8px 0 rgba(0, 0, 0, 0.19);
 }
 .login-btnx ::hover{
   background-color: white;
