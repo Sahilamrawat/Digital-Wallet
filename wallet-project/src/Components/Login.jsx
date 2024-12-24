@@ -47,7 +47,7 @@ function Login() {
     return (
         <div className="page-container bg-[#F6F4F0] flex items-center justify-center w-screen h-screen">
             <div className='outer-container flex w-[50%] justify-center items-center bg-white rounded-lg'>
-                <img src={login_logo} className='login-logo w-[50%] bg-white ' alt="image" />
+                <img src={login_logo} className='login-logo w-[45%] bg-white ' alt="image" />
                 <div className="form-container flex flex-col items-center justify-center w-[100%] bg-[#4DA1A9] rounded-lg">
                     <form
                         className="login-page flex flex-col items-center justify-center w-[80%] pt-[10px] mt-10 mb-10"

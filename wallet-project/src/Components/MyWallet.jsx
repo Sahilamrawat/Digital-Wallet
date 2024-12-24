@@ -1,21 +1,9 @@
-import React from 'react'
-import Navheader from './Navheader'
+import React from "react";
+import TransactionList from './TransactionList.jsx'
 import Chart from 'chart.js/auto';
 import { useRef, useEffect } from 'react';
-import "./Styles.css"
-import TransactionList from './TransactionList.jsx'
-function Wallet() {
-  return (
-    <div className="main-container scrollbar-thin scrollbar-thumb-[#2E5077] scrollbar-track-[#ffffff] w-[100%] min-h-screen m-0 p-0 overflow-x-hidden  flex flex-col">
-      <Navheader />
-      <WalletPage />
-    </div>
-  );
-}
 
-export default Wallet;
-
-function WalletPage() {
+function MyWallet(){
   const labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const dataset = [
     {
@@ -40,13 +28,9 @@ function WalletPage() {
       borderWidth: 1,
     },
   ];
-  return (
-    <div className="inside-container flex m-[30px] flex-grow">
-      {/* <div className="main-wallet bg-[#4DA1A9] rounded-xl w-[20%] h-100px m-[5px] text-center">
-        <div className="dashboard"></div>
-      </div> */}
-      <div className="main-wallet bg-white w-[80%] rounded-xl m-[5px] text-center flex flex-col flex-grow items-center justify-center py-6">
-        <div className="wallet-display shadow-lg rounded-lg pb-4 w-[95%] bg-[#F6F4F0] m-[10px] flex justify-between">
+  return(
+    <div className="main-wallet bg-gray-100 w-[80%] overflow-y-scroll   rounded-xl text-center flex flex-col flex-grow items-center  py-6">
+        <div className="wallet-display shadow-md rounded-lg pb-4 w-[95%] bg-white m-[10px] flex justify-between">
           <div className="rounded-lg flex-col flex-grow">
             <div className="text-start text-[40px] font-bold px-4 py-2 m-[10px] w-max">
               My Wallet
@@ -62,25 +46,25 @@ function WalletPage() {
             </button>
           </div>
         </div>
-        <div className=" rounded-lg shadow-lg h-[30%] w-[95%]  flex flex-grow justify-between">
-          <div className='transaction-graph-display shadow-lg  rounded-lg w-[70%] '>
+        <div className=" rounded-lg shadow-md h-max w-[95%] bg-white flex flex-grow-5 justify-between">
+          <div className='transaction-graph-display   rounded-lg w-[70%] '>
             <div className="text-start text-[25px] font-bold px-4 py-2 m-[10px] w-max">
               Transaction Graph
             </div>
-            <div className='graph py-2 px-6'>
+            <div className='graph py-2 px-6 '>
               <Graph type="line" labels={labels} dataset={dataset} />
             </div>  
           </div>
         
-          <div className='transaction-history-display shadow-lg w-[30%]  '>
+          <div className='transaction-history-display  w-[30%]  '>
             
-            <div className=" rounded-lg w-[95%]  bg-[#F6F4F0]  flex flex-col">
+            <div className=" rounded-lg w-[100%]   flex flex-col">
               <div className="text-start text-[25px] font-bold px-4 py-2 w-full m-[10px]">
                 History
               </div>
               <TransactionList />
                 
-             
+              
                 
 
 
@@ -92,9 +76,9 @@ function WalletPage() {
         </div>
         
       </div>
-    </div>
-  );
+  )
 }
+
 const Graph = ({ type, labels, dataset }) => {
   const chartRef = useRef(null);
 
@@ -127,3 +111,4 @@ const Graph = ({ type, labels, dataset }) => {
 
   return <canvas ref={chartRef} />;
 };
+export default MyWallet

@@ -1,8 +1,8 @@
-.link-item li:hover{
+/* .link-item li:hover{
     border-bottom: 1px solid #4DA1A9;
    
     
-}
+} */
 
 .link-item li{
     padding: 5px;
@@ -90,9 +90,24 @@
   background: rgb(255,255,255);
   background: linear-gradient(90deg, rgba(255,255,255,1) -1%, #4DA1A9 100%, rgba(252,176,69,1) 100%);
 }
-.outer-container,.main-wallet{
+.outer-container{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 4px 8px 0 rgba(0, 0, 0, 0.19);
 }
 .login-btnx ::hover{
   background-color: white;
+}
+.main-wallet-dashboard{
+  height: 100%;
+  /* border-radius:5px ; */
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border */
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 2px 4px 0 rgba(0, 0, 0, 0.19);
+  position: sticky;
+  left: 0;
+  /* z-index: 9; */
+
+  
+}
+.main-wallet::-webkit-scrollbar{
+  display: none;
 }

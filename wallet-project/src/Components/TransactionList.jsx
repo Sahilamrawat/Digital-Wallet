@@ -4,10 +4,18 @@ import React from 'react';
 const TransactionList = () => {
   const containerRef = useRef();
   const [transactions, setTransactions] = useState([
-    "Transaction 1", "Transaction 2", "Transaction 3", "Transaction 4", 
-    "Transaction 5", "Transaction 6", "Transaction 7", "Transaction 8",
-    "Transaction 9", "Transaction 10", "Transaction 11", "Transaction 12",
-    "Transaction 13"
+    { date: "2024-01-01", amount: "₹1000", upiId: "user@bank" },
+    { date: "2024-01-02", amount: "₹500", upiId: "shop@bank" },
+    { date: "2024-01-03", amount: "₹250", upiId: "merchant@bank" },
+    { date: "2024-01-04", amount: "₹700", upiId: "service@bank" },
+    { date: "2024-01-05", amount: "₹1200", upiId: "travel@bank" },
+    { date: "2024-01-03", amount: "₹250", upiId: "merchant@bank" },
+    { date: "2024-01-04", amount: "₹700", upiId: "service@bank" },
+    { date: "2024-01-05", amount: "₹1200", upiId: "travel@bank" },
+    { date: "2024-01-05", amount: "₹1200", upiId: "travel@bank" },
+    { date: "2024-01-03", amount: "₹250", upiId: "merchant@bank" },
+    { date: "2024-01-04", amount: "₹700", upiId: "service@bank" },
+    { date: "2024-01-05", amount: "₹1200", upiId: "travel@bank" },
   ]);
 
   useEffect(() => {
@@ -18,22 +26,28 @@ const TransactionList = () => {
   }, [transactions]); // This will trigger when 'transactions' array changes
 
   const addTransaction = () => {
-    // Example: Adding a new transaction to simulate a dynamic list
-    setTransactions([...transactions, `Transaction ${transactions.length + 1}`]);
+    // Add a new transaction with dummy data (you can customize this as needed)
+    const newTransaction = {
+      date: new Date().toISOString().split("T")[0], // Current date in YYYY-MM-DD format
+      amount: `₹${Math.floor(Math.random() * 2000 + 1)}`, // Random amount
+      upiId: `random@bank${Math.floor(Math.random() * 100)}` // Random UPI ID
+    };
+    setTransactions([...transactions, newTransaction]);
   };
 
   return (
     <div>
-      <button onClick={addTransaction} className="mb-4 p-2 bg-blue-500 text-white rounded">
-        Add Transaction
-      </button>
+      
       <div
-        className="w-full h-[500px] p-[10px] flex flex-col items-center justify-center overflow-y-scroll scrollbar-thin scrollbar-thumb-[#2E5077] scrollbar-track-[#ffffff]"
+        className="w-full h-[420px] p-[10px] flex flex-col items-center text-center overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-[#2E5077] scrollbar-track-[#ffffff]"
         ref={containerRef}
       >
         {transactions.map((transaction, index) => (
-          <div key={index} className="h-[50px] rounded-lg m-[7px] w-[max] bg-[#D9EAFD] flex justify-start px-4 items-center">
-            {transaction}
+          <div key={index} className="h-[200px] rounded-lg m-[7px] p-6 w-full flex justify-around px-4 items-center  cursor-pointer  border-b hover:border-gray-400">
+            <div className="text-sm font-semibold">{transaction.date}</div>
+            <div className="text-sm"> {transaction.upiId}</div>
+            <div className="text-sm">{transaction.amount}</div>
+            
           </div>
         ))}
       </div>

@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import "./Styles.css";
 import logo from "../assets/logo.svg";
 import { useNavigate } from "react-router-dom";
-import signup from "../assets/sign-up.svg";
+import signup from "../assets/sign-up.svg"; 
+// import AllUsers from "../Data/users"
 
 function Signup() {
     const [formData, setFormData] = useState({
-        firstName: "",
-        lastName: "",
+        userName: "",
+      
         dob: "",
         email: "",
         password: "",
@@ -24,8 +25,8 @@ function Signup() {
 
     const validateForm = () => {
         const newErrors = {};
-        if (!formData.firstName.trim()) newErrors.firstName = "First name is required.";
-        if (!formData.lastName.trim()) newErrors.lastName = "Last name is required.";
+        if (!formData.userName.trim()) newErrors.userName = "User name is required.";
+   
         if (!formData.dob.trim()) newErrors.dob = "Date of birth is required.";
         if (!formData.email.trim()) {
             newErrors.email = "Email is required.";
@@ -56,7 +57,7 @@ function Signup() {
     return (
         <div className="page-container flex items-center justify-center w-screen h-screen">
             <div className='outer-container flex w-[65%] justify-center items-center bg-white rounded-lg'>
-                <img src={signup} className='login-logo w-[50%]  bg-white ' alt="image" />
+                <img src={signup} className='login-logo w-[45%]  bg-white ' alt="image" />
                 <div className="form-container flex flex-col items-center justify-center w-[100%] bg-[#4DA1A9] rounded-lg">
                     <form
                         className="signup-page flex flex-col items-center justify-center w-[80%] pt-[10px] mt-10 mb-10"
@@ -73,26 +74,17 @@ function Signup() {
                         <h1 className="font-bold text-[20px] text-white mb-3">Signup</h1>
 
                         {/* First Name and Last Name Fields */}
-                        <div className="flex w-full justify-center items-center space-x-2">
-                            <input
+                        
+                        <input
                                 className={`input-fields flex-grow ${errors.firstName ? "border-red-500" : ""}`}
                                 type="text"
-                                name="firstName"
-                                placeholder="First Name"
-                                value={formData.firstName}
+                                name="Username"
+                                placeholder="Username"
+                                value={formData.userName}
                                 onChange={handleInputChange}
-                            />
-                            <input
-                                className={`input-fields flex-grow ${errors.lastName ? "border-red-500" : ""}`}
-                                type="text"
-                                name="lastName"
-                                placeholder="Last Name"
-                                value={formData.lastName}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                        {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>}
-                        {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
+                        />
+                        {errors.userName && <p className="text-red-500 text-sm mt-1">{errors.userName}</p>}
+                        
 
                         {/* Date of Birth Field */}
                         <input
