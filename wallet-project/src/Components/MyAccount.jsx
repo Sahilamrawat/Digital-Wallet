@@ -11,6 +11,7 @@ import MyWallet  from './MyWallet.jsx';
 import Profile from './Profile.jsx';
 import ManageAccount from './ManageAccount.jsx';
 import ManageUPI from './ManageUpi.jsx';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function MyAccount() {
   return (
@@ -29,7 +30,10 @@ function WalletPage() {
     { name: 'Profile' },
     { name: 'My Wallet' },
     { name: 'Manage Account' },
-    { name: 'Manage UPI' },
+ 
+    { name: 'Logout' },
+    { name: 'Home' },
+   
   ];
 
   return (
@@ -49,12 +53,22 @@ function WalletPage() {
             {menuItems.map((item, index) => (
               <li
                 key={index}
-                className={`cursor-pointer py-2 px-4 rounded-l-3xl text-white font-semibold ${
-                  activeIndex === index ? 'bg-[#2E5077]' : 'hover:bg-[#35708E]'
+                
+                className={`cursor-pointer py-5 px-4 rounded-l-3xl text-white font-semibold ${
+                  activeIndex === index ? 'bg-[#2E5077]' : 'hover:bg-[#35708E] '
                 }`}
                 onClick={() => {
                   setActiveIndex(index); // Set the active menu item
                   // navigate(item.path); // Navigate to the selected path
+                  if(index===3){
+                    alert('Logging out ...')
+                    navigate('/login')
+                  }
+                  if(index===4){
+                    
+                    navigate('/home')
+                  }
+                  
                 }}
               >
                 {item.name}
@@ -68,6 +82,8 @@ function WalletPage() {
       {activeIndex === 1 && < MyWallet/>}
       {activeIndex === 2 && <ManageAccount />}
       {activeIndex === 3 && <ManageUPI />}
+      
+
       
     </div>
   );

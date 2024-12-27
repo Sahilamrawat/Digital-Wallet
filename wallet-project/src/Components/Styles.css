@@ -111,3 +111,9 @@
 .main-wallet::-webkit-scrollbar{
   display: none;
 }
+.main-profile::-webkit-scrollbar{
+  display: none;
+}
+/* .profile-btn{
+  inset: 10px 78.7% 10px 10px 
+} */
