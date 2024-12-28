@@ -3,6 +3,8 @@ import "./Styles.css";
 import logo from "../assets/logo.svg";
 import { useNavigate } from "react-router-dom";
 import login_logo from "../assets/login_logo.svg"
+import { ToastContainer } from 'react-toastify';
+import {handleSuccess, handleError } from '../utils';
 function Login() {
     const [formData, setFormData] = useState({
         
@@ -35,13 +37,46 @@ function Login() {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit =async (e) => {
         e.preventDefault();
-        if (validateForm()) {
-            // Proceed with login
-            alert("Login successful!");
-            navigate("/"); // Navigate to the home page
+        const {email,password}= formData;
+        if(!email || !password){
+            return handleError('Fields are required')
         }
+        try {
+            const url = "http://localhost:8080/auth/login";
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            const result = await response.json();
+            const { success, message, jwtToken, name, error } = result;
+            if (success) {
+                handleSuccess(message);
+                localStorage.setItem('token', jwtToken);
+                localStorage.setItem('loggedInUser', name);
+                setTimeout(() => {
+                    navigate('/home')
+                }, 1000)
+            } else if (error) {
+                const details = error?.details[0].message;
+                handleError(details);
+            } else if (!success) {
+                handleError(message);
+            }
+            console.log(result);
+        } catch (err) {
+            handleError(err);
+        }
+        // if (validateForm()) {
+        //     // Proceed with login
+
+        //     alert("Login successful!");
+        //     navigate("/"); // Navigate to the home page
+        // }
     };
 
     return (
@@ -100,6 +135,7 @@ function Login() {
                             Sign Up
                         </div>
                     </form>
+                    <ToastContainer />
                 </div>
             </div>
             

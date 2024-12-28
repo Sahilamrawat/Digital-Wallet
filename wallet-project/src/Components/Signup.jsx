@@ -3,12 +3,13 @@ import "./Styles.css";
 import logo from "../assets/logo.svg";
 import { useNavigate } from "react-router-dom";
 import signup from "../assets/sign-up.svg"; 
+import { ToastContainer } from 'react-toastify';
+import {handleSuccess, handleError } from '../utils';
 // import AllUsers from "../Data/users"
 
 function Signup() {
     const [formData, setFormData] = useState({
         userName: "",
-      
         dob: "",
         email: "",
         password: "",
@@ -45,14 +46,40 @@ function Signup() {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (validateForm()) {
-            // Proceed with signup
-            alert("Signup successful!");
-            navigate("/login"); // Navigate to the login page
+        const { userName, email, password, dob, confirmPassword } = formData;
+        if (!userName || !email || !password ||!dob ||!confirmPassword) {
+            return handleError('name, email and password are required')
         }
-    };
+        try {
+            const url = "http://localhost:8080/auth/signup";
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            const result = await response.json();
+            const { success, message, error } = result;
+            if (success) {
+                handleSuccess(message);
+                setTimeout(() => {
+                    navigate('/login')
+                }, 1000)
+            } else if (error) {
+                const details = error?.details[0].message;
+                handleError(details);
+            } else if (!success) {
+                handleError(message);
+            }
+            console.log(result);
+        } catch (err) {
+            handleError(err);
+        }
+    }
+    
 
     return (
         <div className="page-container flex items-center justify-center w-screen h-screen">
@@ -61,7 +88,7 @@ function Signup() {
                 <div className="form-container flex flex-col items-center justify-center w-[100%] bg-[#4DA1A9] rounded-lg">
                     <form
                         className="signup-page flex flex-col items-center justify-center w-[80%] pt-[10px] mt-10 mb-10"
-                        autoComplete="off"
+                    
                         onSubmit={handleSubmit}
                     >
                         <img
@@ -76,9 +103,9 @@ function Signup() {
                         {/* First Name and Last Name Fields */}
                         
                         <input
-                                className={`input-fields flex-grow ${errors.firstName ? "border-red-500" : ""}`}
+                                className={`input-fields flex-grow ${errors.userName ? "border-red-500" : ""}`}
                                 type="text"
-                                name="Username"
+                                name="userName"
                                 placeholder="Username"
                                 value={formData.userName}
                                 onChange={handleInputChange}
@@ -151,6 +178,7 @@ function Signup() {
                             Login
                         </div>
                     </form>
+                    <ToastContainer/>
                 </div>
             </div>
         </div>
