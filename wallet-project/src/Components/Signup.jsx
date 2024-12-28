@@ -49,36 +49,46 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const { userName, email, password, dob, confirmPassword } = formData;
-        if (!userName || !email || !password ||!dob ||!confirmPassword) {
-            return handleError('name, email and password are required')
+    
+        if (!userName || !email || !password || !dob || !confirmPassword) {
+            return handleError("All fields are required.");
         }
+    
+        // Ensure dob is in ISO format
+        const dobRegex = /^\d{4}-\d{2}-\d{2}$/; // Matches YYYY-MM-DD format
+        if (!dobRegex.test(dob)) {
+            return handleError("Invalid date of birth format. Please use YYYY-MM-DD.");
+        }
+    
         try {
             const url = "http://localhost:8080/auth/signup";
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({ ...formData, dob }), // Send dob as is
             });
+    
             const result = await response.json();
             const { success, message, error } = result;
+    
             if (success) {
                 handleSuccess(message);
                 setTimeout(() => {
-                    navigate('/login')
-                }, 1000)
+                    navigate("/login");
+                }, 1000);
             } else if (error) {
-                const details = error?.details[0].message;
+                const details = error?.details[0]?.message || "An error occurred.";
                 handleError(details);
             } else if (!success) {
                 handleError(message);
             }
             console.log(result);
         } catch (err) {
-            handleError(err);
+            handleError("Failed to submit the form. Please try again.");
         }
-    }
+    };
     
 
     return (
