@@ -1,10 +1,10 @@
-import React, {  useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import './Styles.css';
 
 import logo from "../assets/logo.svg"
 import LoginIcon from '@mui/icons-material/Login';
 import { useNavigate } from "react-router-dom";
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'; // Default avatar icon
 
 const ServicesDropDown = ({ isOpen }) => {
   const navigate = useNavigate();
@@ -30,7 +30,11 @@ function Navheader() {
 
   const [services_dropdownOpen, setServicesDropdownOpen] = useState(false);
   //  const[loginStatus setLoginStatus]=useState(false);
+  const[loggedInUser,setLoggedInUser]=useState('');
 
+  useEffect(()=>{
+    setLoggedInUser(localStorage.getItem('loggedInUser'));
+  },[])
 
 
   const services_toggleDropdown = () => {
@@ -38,6 +42,35 @@ function Navheader() {
     
   };
   const navigate = useNavigate();
+
+
+  const generateAvatar = () => {
+    if (loggedInUser) { // Only generate an avatar if loggedInUser is valid
+      const initials = loggedInUser
+        .split(' ')
+        .map((word) => word[0])
+        .join('')
+        .toUpperCase();
+      return (
+      
+        <div className='flex items-center'>
+          <div className='mr-3'>
+            <p className='font-extralight'><i>{loggedInUser}</i></p>
+          </div>
+          <div 
+            className="avatar flex items-center justify-center w-10 h-10 rounded-full bg-[#4DA1A9] mr-8 text-white font-bold cursor-pointer hover:shadow-lg hover:scale-105 transition-transform duration-300" 
+            onClick={() => navigate('/wallet')}
+          >
+            
+            {initials}
+          </div>  
+        </div>
+        
+        
+      );
+    }
+    return null; // Return null if there's no valid loggedInUser
+  };
   // Empty dependency
   return (
     <nav id='nav-bar' className='nav-section  flex justify-between items-center p-2 px-5 text-[18px] bg-[#F6F4F0] text-[#2E5077]'>
@@ -47,23 +80,28 @@ function Navheader() {
       </div>
       <div className='nav-links relative'>
         <ul className="link-item flex gap-6 font-semibold">
-          <li className="cursor-pointer hover:scale-105 transition-transform duration-100" onClick={() => navigate('/home')}>Home</li>
+          <li className="cursor-pointer hover:scale-105  transition-transform duration-100" onClick={() => navigate('/home')}>Home</li>
           <li className="relative cursor-pointer hover:scale-105 transition-transform duration-100" onClick={services_toggleDropdown}>
             Services
             <ServicesDropDown isOpen={services_dropdownOpen}/>
           </li>
           
-          <li className="relative cursor-pointer hover:scale-105 transition-transform duration-100" onClick={()=> navigate('/wallet')}>
-            My Account
-            
-          </li>
+          
           <li className="cursor-pointer hover:scale-105 transition-transform duration-100">About</li>
         </ul>
       </div>
-      <div className='signup-btn cursor-pointer flex items-center gap-1 bg-[#4DA1A9] px-[8px]  py-2 rounded-[5px]' onClick={()=>navigate('/login')}>
-        <button className='font-semibold text-white text-[14px]' >Login</button>
-        <LoginIcon  className=' text-white' fontSize='small'/>
-      </div>
+      {loggedInUser && loggedInUser !== 'undefined' ? (
+        generateAvatar() 
+      ) : (
+        <div 
+          className='signup-btn cursor-pointer flex items-center gap-1 bg-[#4DA1A9] px-[8px] py-2 rounded-[5px] hover:shadow-lg hover:scale-105 transition-transform duration-300' 
+          onClick={() => navigate('/login')}
+        >
+          <button className='font-semibold text-white text-[14px]'>Login</button>
+          <LoginIcon className='text-white' fontSize='small' />
+        </div>
+      )}
+
     </nav>
   );
 }

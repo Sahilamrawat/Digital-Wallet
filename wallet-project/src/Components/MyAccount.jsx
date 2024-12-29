@@ -62,6 +62,7 @@ function WalletPage() {
                   // navigate(item.path); // Navigate to the selected path
                   if(index===3){
                     alert('Logging out ...')
+                    localStorage.setItem('loggedInUser',undefined)
                     navigate('/login')
                   }
                   if(index===4){

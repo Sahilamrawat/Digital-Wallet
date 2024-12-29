@@ -7,7 +7,9 @@
 .link-item li{
     padding: 5px;
     cursor: pointer;
+    
 }
+
 .nav-section{
     width: 100%;
     /* border-radius:5px ; */
@@ -117,3 +119,41 @@
 /* .profile-btn{
   inset: 10px 78.7% 10px 10px 
 } */
+
+
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #4DA1A9; /* Default background */
+  color: white; /* Text color */
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.avatar:hover {
+  box-shadow: 0 0 15px 5px rgba(77, 161, 169, 0.7); /* Glow effect */
+  transform: scale(1.1); /* Slight zoom-in effect */
+}
+
+/* Login button hover glow effect */
+.signup-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #4DA1A9; /* Default background */
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.signup-btn:hover {
+  box-shadow: 0 0 15px 5px rgba(77, 161, 169, 0.7); /* Glow effect */
+  transform: scale(1.1); /* Slight zoom-in effect */
+}

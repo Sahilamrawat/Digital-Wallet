@@ -16,26 +16,13 @@ function Login() {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-        setErrors({ ...errors, [name]: "" }); // Clear error on input change
+        console.log(name, value);
+        const copyLoginInfo = { ...formData };
+        copyLoginInfo[name] = value;
+        setFormData(copyLoginInfo);// Clear error on input change
     };
 
-    const validateForm = () => {
-        const newErrors = {};
-        
-        if (!formData.email.trim()) {
-            newErrors.email = "Email is required.";
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = "Enter a valid email address.";
-        }
-        if (!formData.password.trim()) {
-            newErrors.password = "Password is required.";
-        } else if (formData.password.length < 6) {
-            newErrors.password = "Password must be at least 6 characters.";
-        }
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
+ 
 
     const handleSubmit =async (e) => {
         e.preventDefault();
@@ -53,11 +40,11 @@ function Login() {
                 body: JSON.stringify(formData)
             });
             const result = await response.json();
-            const { success, message, jwtToken, name, error } = result;
+            const { success, message, jwtToken, userName, error } = result;
             if (success) {
                 handleSuccess(message);
                 localStorage.setItem('token', jwtToken);
-                localStorage.setItem('loggedInUser', name);
+                localStorage.setItem('loggedInUser', userName);
                 setTimeout(() => {
                     navigate('/home')
                 }, 1000)
