@@ -14,6 +14,7 @@ function Signup() {
         email: "",
         password: "",
         confirmPassword: "",
+        phone:"",
     });
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
@@ -24,33 +25,13 @@ function Signup() {
         setErrors({ ...errors, [name]: "" }); // Clear error on input change
     };
 
-    const validateForm = () => {
-        const newErrors = {};
-        if (!formData.userName.trim()) newErrors.userName = "User name is required.";
    
-        if (!formData.dob.trim()) newErrors.dob = "Date of birth is required.";
-        if (!formData.email.trim()) {
-            newErrors.email = "Email is required.";
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = "Enter a valid email address.";
-        }
-        if (!formData.password.trim()) {
-            newErrors.password = "Password is required.";
-        } else if (formData.password.length < 6) {
-            newErrors.password = "Password must be at least 6 characters.";
-        }
-        if (formData.password !== formData.confirmPassword) {
-            newErrors.confirmPassword = "Passwords do not match.";
-        }
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { userName, email, password, dob, confirmPassword } = formData;
+        const { userName, email, password, dob, confirmPassword ,phone } = formData;
     
-        if (!userName || !email || !password || !dob || !confirmPassword) {
+        if (!userName || !email || !password || !dob || !confirmPassword||!phone) {
             return handleError("All fields are required.");
         }
     
@@ -75,6 +56,7 @@ function Signup() {
     
             if (success) {
                 handleSuccess(message);
+                
                 setTimeout(() => {
                     navigate("/login");
                 }, 1000);
@@ -144,6 +126,16 @@ function Signup() {
                             onChange={handleInputChange}
                         />
                         {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+
+                        <input
+                            className={`input-fields ${errors.phone ? "border-red-500" : ""}`}
+                            type="tel"
+                            name="phone"
+                            placeholder="Mobile No"
+                            value={formData.phone}
+                            onChange={handleInputChange}
+                        />
+                        {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
 
                         {/* Password Field */}
                         <input

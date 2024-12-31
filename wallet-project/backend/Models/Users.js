@@ -22,6 +22,26 @@ const UserSchema = new Schema({
     confirmPassword: {
         type: String,
         required: true,
+    },
+    phone:{
+        type:String,
+        required:true,
+    },
+    kycStatus:{
+        type:String,
+        required:true,
+        default:"Verified",
+    },
+    profilePic:{
+        type:String,
+        required:true,
+        default:"https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+    },
+    address: {
+        Street: {type: String, default: '' },
+        city: { type: String, default: '' },
+        State: { type: String, default: '' },
+        ZIP: { type: String, default: '' }, // Example: Validates a 5-digit ZIP code
     }
 });
 

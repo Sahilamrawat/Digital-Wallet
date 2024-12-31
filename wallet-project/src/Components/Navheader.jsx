@@ -32,9 +32,10 @@ function Navheader() {
   //  const[loginStatus setLoginStatus]=useState(false);
   const[loggedInUser,setLoggedInUser]=useState('');
 
-  useEffect(()=>{
-    setLoggedInUser(localStorage.getItem('loggedInUser'));
-  },[])
+  useEffect(() => {
+      // Load the logged-in user from localStorage (or your auth context)
+      setLoggedInUser(localStorage.getItem('loggedInUser'));
+  }, []);
 
 
   const services_toggleDropdown = () => {

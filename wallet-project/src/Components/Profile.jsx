@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function Profile() {
     const [profilePic, setProfilePic] = useState(() => {
@@ -8,46 +9,159 @@ function Profile() {
     const [isEditing, setIsEditing] = useState(false);
     const [isPhoneEditing, setIsPhoneEditing] = useState(false);
     const [isDobEditing, setIsDobEditing] = useState(false);
-    
     const [isAddressEditing, setIsAddressEditing] = useState(false);
 
-    // Load userDetails from localStorage if they exist
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     const [userDetails, setUserDetails] = useState(() => {
         const savedUserDetails = localStorage.getItem('userDetails');
         return savedUserDetails
             ? JSON.parse(savedUserDetails)
             : {
-                  name: '',
+                  userName: '',
                   email: '',
                   phone: '',
                   dob: '',
                   kycStatus: '',
-                 
-                  
               };
     });
+
     const [userAddress, setUserAddress] = useState(() => {
         const savedUserAddress = localStorage.getItem('userAddress');
         return savedUserAddress
             ? JSON.parse(savedUserAddress)
             : {
-                  
-                city:'',
-                Street:'',
-                State:'',
-                ZIP:'',
-                  
+                  city: '',
+                  Street: '',
+                  State: '',
+                  ZIP: '',
               };
     });
 
+
+    const handleSaveProfile = async () => {
+        // Create the updatedData object, only adding fields that are not undefined
+        const updatedData = {};
+    
+        // Only add userName if it is defined
+        if (userDetails.userName !== undefined) {
+            updatedData.userName = userDetails.userName;
+        }
+    
+        // Only add email if it is defined
+        if (userDetails.email !== undefined) {
+            updatedData.email = userDetails.email;
+        }
+    
+        // Only add phone if it is defined
+        if (userDetails.phone !== undefined) {
+            updatedData.phone = userDetails.phone;
+        }
+    
+        // Only add dob if it is defined
+        if (userDetails.dob !== undefined) {
+            updatedData.dob = userDetails.dob;
+        }
+    
+        // Only add address if it is defined
+        if (userAddress !== undefined) {
+            updatedData.address = userAddress;
+        }
+    
+        // Log the updatedData to check if all the fields are correctly added
+        console.log("updatedData to send:", updatedData);
+    
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert("Authentication token is missing.");
+                return;
+            }
+    
+            const response = await axios.put('http://localhost:8080/auth/updateProfile', updatedData, {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                },
+            });
+    
+            if (response.data.success) {
+                // Save the updated user profile to local storage
+                localStorage.setItem('userDetails', JSON.stringify(response.data.user));
+                localStorage.setItem('userAddress', JSON.stringify(response.data.user.address));
+                alert("Profile updated successfully");
+            }
+        } catch (err) {
+            console.error("Error response:", err.response);
+            alert("Error updating profile: " + (err.response ? err.response.data.message : err.message));
+        }
+    };
+    
+
+
+
+
+
+
+
+
+
+    // Fetching the profile data from the server
+    useEffect(() => {
+        const fetchData = async () => {
+            const token = localStorage.getItem('token'); // Get token from localStorage
+
+            if (!token) {
+                setError('No token found');
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const response = await axios({
+                    method: 'get',
+                    url: 'http://localhost:8080/auth/getProfile',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                setUserDetails(response.data.user);
+                setUserAddress(response.data.user.address); // Assuming address is inside the user object
+            } catch (err) {
+                setError(err.response?.data?.message || 'Error fetching profile');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []); // Empty dependency array ensures this runs once on component mount
+
     useEffect(() => {
         // Save userDetails to localStorage whenever it changes
-        localStorage.setItem('userDetails', JSON.stringify(userDetails));
-    }, [userDetails]);
-    useEffect(()=>{
-        localStorage.setItem('userAddress',JSON.stringify(userAddress));
-    },[userAddress]);
+        if (userDetails) {
+            localStorage.setItem('userDetails', JSON.stringify(userDetails));
+        }
+    }, [userDetails]); // Runs when userDetails changes
 
+    useEffect(() => {
+        // Save userAddress to localStorage whenever it changes
+        if (userAddress) {
+            localStorage.setItem('userAddress', JSON.stringify(userAddress));
+        }
+    }, [userAddress]); // Runs when userAddress changes
+
+    // Loading and error states
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    // Handle profile picture change
     const handleProfilePicChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -59,28 +173,31 @@ function Profile() {
             reader.readAsDataURL(file);
         }
     };
-    
 
     const handleRemoveProfilePic = () => {
         setProfilePic(null);
         localStorage.removeItem('profilePic');
     };
 
+    // Toggle editing states
     const handleEditToggle = () => {
         setIsEditing(!isEditing);
+        
     };
+
     const handlePhoneEditToggle = () => {
         setIsPhoneEditing(!isPhoneEditing);
     };
+
     const handleDobEditToggle = () => {
         setIsDobEditing(!isDobEditing);
     };
+
     const handleAddressEditToggle = () => {
         setIsAddressEditing(!isAddressEditing);
     };
 
-    
-
+    // Handle user details change
     const handleChange = (event) => {
         const { name, value } = event.target;
         setUserDetails((prevDetails) => ({
@@ -88,10 +205,12 @@ function Profile() {
             [name]: value,
         }));
     };
+
+    // Handle address change
     const handleAddressChange = (event) => {
         const { name, value } = event.target;
-        setUserAddress((prevDetails) => ({
-            ...prevDetails,
+        setUserAddress((prevAddress) => ({
+            ...prevAddress,
             [name]: value,
         }));
     };
@@ -109,7 +228,12 @@ function Profile() {
                                 ? 'bg-green-500 hover:bg-green-600'
                                 : 'bg-blue-800 hover:bg-blue-900'
                         }`}
-                        onClick={handleEditToggle}
+                        onClick={() => {
+                            handleEditToggle(); // Toggle the edit mode first
+                            if (isEditing) {
+                                handleSaveProfile(); // Only call handleSaveProfile if isEditing is true (Save button)
+                            }
+                        }}
                     >
                         {isEditing ? 'Save' : 'Edit'}
                     </button>
@@ -141,13 +265,13 @@ function Profile() {
                         {isEditing ? (
                             <input
                                 type="text"
-                                name="name"
-                                value={userDetails.name}
+                                name="userName"
+                                value={userDetails.userName}
                                 onChange={handleChange}
                                 className="border border-gray-300 rounded px-2   w-full"
                             />
                         ) : (
-                            <p>{userDetails.name}</p>
+                            <p>{userDetails.userName}</p>
                         )}
                         </div>
                       
@@ -197,7 +321,12 @@ function Profile() {
                                     ? 'bg-green-500 hover:bg-green-600'
                                     : 'bg-blue-800 hover:bg-blue-900'
                             }`}
-                            onClick={handlePhoneEditToggle}
+                            onClick={() => {
+                                handlePhoneEditToggle();
+                                if (isPhoneEditing) {
+                                    handleSaveProfile(); // Only call handleSaveProfile if isPhoneEditing is true (Save button)
+                                }
+                            }}
                         >
                             {isPhoneEditing ? 'Save' : 'Edit'}
                         </button>
@@ -235,7 +364,12 @@ function Profile() {
                                     ? 'bg-green-500 hover:bg-green-600'
                                     : 'bg-blue-800 hover:bg-blue-900'
                             }`}
-                            onClick={handleDobEditToggle}
+                            onClick={() => {
+                                handleDobEditToggle(); 
+                                if (isDobEditing) {
+                                    handleSaveProfile(); // Only call handleSaveProfile if isDobEditing is true (Save button)
+                                }
+                            }}
                         >
                             {isDobEditing ? 'Save' : 'Edit'}
                         </button>
@@ -249,7 +383,7 @@ function Profile() {
                             {isDobEditing ? (
                                 <input
                                     type="date"
-                                    name="phone"
+                                    name="dob"
                                     value={userDetails.dob}
                                     onChange={handleChange}
                                     className="border border-gray-300 rounded px-2 py-1 w-full"
@@ -273,7 +407,12 @@ function Profile() {
                                     ? 'bg-green-500 hover:bg-green-600'
                                     : 'bg-blue-800 hover:bg-blue-900'
                             }`}
-                            onClick={handleAddressEditToggle}
+                            onClick={() => {
+                                handleAddressEditToggle(); 
+                                if (isAddressEditing) {
+                                    handleSaveProfile(); // Only call handleSaveProfile if isAddressEditing is true (Save button)
+                                }
+                            }}
                         >
                             {isAddressEditing ? 'Save' : 'Edit'}
                         </button>
@@ -410,8 +549,8 @@ const ManageUpi = () => {
         if (isUpiEditing) {
             if (newUpi.trim()) {
                 // Limit to 3 UPI IDs
-                if (userDetails.UpiList.length >= 3) {
-                    alert("You can only add up to 3 UPI IDs.");
+                if (userDetails.UpiList.length >= 1) {
+                    alert("You can only add up to 1 UPI IDs.");
                     setIsUpiEditing(false);
                     return;
                 }
@@ -460,7 +599,7 @@ const ManageUpi = () => {
                         }`}
                         onClick={handleUpiEditToggle }
                     >
-                        {isUpiEditing ? "Save New" : "Add UPI"}
+                        {isUpiEditing ? "Save New" : "Create"}
                     </button>
                 </div>
             </div>
@@ -501,7 +640,7 @@ const ManageUpi = () => {
             )}
 
             {userDetails.UpiList.length >= 3 && (
-                <p className="text-red-500 mt-2">Maximum limit of 3 UPI IDs reached.</p>
+                <p className="text-red-500 mt-2">Maximum limit of 1 UPI IDs reached.</p>
             )}
             
         </div>
