@@ -1,20 +1,18 @@
 import React, { useState } from "react";
-import Navheader from '../Components/Navheader'
-import image from '../assets/send-money-page.svg'
+import Navheader from '../Components/Navheader';
+import image from '../assets/send-money-page.svg';
+import axios from 'axios'; // Import axios for making API requests
+
 function SendMoney() {
   return (
     <div className="w-[100vw] h-[100vh] overflow-x-hidden">
         <Navheader />
- 
-        <SendMoneyPage/>
-        
-        
+        <SendMoneyPage />
     </div>
-   
-  )
+  );
 }
 
-export default SendMoney
+export default SendMoney;
 
 const SendMoneyPage = () => {
     const [receiverUpiId, setReceiverUpiId] = useState("");
@@ -25,19 +23,43 @@ const SendMoneyPage = () => {
     const [message, setMessage] = useState("");
     const [messageType, setMessageType] = useState(""); // success or failure
   
-    const handleSend = () => {
+    const handleSend = async () => {
       setShowPasswordModal(true);
     };
   
-    const handleConfirmPassword = () => {
-      if (password === "correctPassword") {
-        setMessage("Transaction Successful!");
-        setMessageType("success");
-      } else {
-        setMessage("Transaction Failed! Incorrect Password.");
+    const handleConfirmPassword = async () => {
+      try {
+        // Make API request to send money
+        const senderUpiId = localStorage.getItem('userWalletUpi').replace(/^"(.*)"$/, "$1");
+        const token = localStorage.getItem('token'); // JWT token for authorization
+
+        const response = await axios.post(
+          'http://localhost:8080/auth/sendMoney',
+          {
+            SenderUpiId: senderUpiId,
+            ReceiverUpiId: receiverUpiId,
+            Amount: amount
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            }
+          }
+        );
+
+        if (response.data.success) {
+          setMessage("Transaction Successful!");
+          setMessageType("success");
+        } else {
+          setMessage(response.data.message || "Transaction Failed!");
+          setMessageType("failure");
+        }
+      } catch (error) {
+        setMessage("Transaction Failed! Error: " + error.message);
         setMessageType("failure");
+      } finally {
+        setShowPasswordModal(false);
       }
-      setShowPasswordModal(false);
     };
   
     const handleCloseMessage = () => {
@@ -46,9 +68,9 @@ const SendMoneyPage = () => {
     };
   
     return (
-      <div className="bg-gray-100 w-[100%] h-[100%] flex items-center justify-center ">
+      <div className="bg-gray-100 w-[100%] h-[100%] flex items-center justify-evenly">
         <div>
-            <img src={image} alt="Send Money" className="w-[500px] h-[500px]"/>
+            <img src={image} alt="Send Money" className="w-[600px] h-[600px]" />
         </div>
         <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6">
           <h1 className="text-2xl font-bold text-center mb-4">Send Money</h1>

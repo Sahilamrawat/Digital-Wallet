@@ -67,7 +67,7 @@ function WalletPage() {
                   }
                   if(index===4){
                     
-                    navigate('/home')
+                    navigate('/')
                   }
                   
                 }}

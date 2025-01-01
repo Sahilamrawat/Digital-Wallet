@@ -295,6 +295,75 @@ const updateUserWallet = async (req, res) => {
         });
     }
 };
+const SendMoney = async (req, res) => {
+    try {
+        const { SenderUpiId, ReceiverUpiId, Amount } = req.body;
+
+        // Step 1: Retrieve sender user using the UPI ID (from the token or direct UPI ID)
+        const senderUser = await UserModel.findOne({ 'wallet.UpiId': SenderUpiId });
+
+        if (!senderUser) {
+            return res.status(404).json({ message: "Sender not found", success: false });
+        }
+
+        // Step 2: Verify the sender using the token's _id or provided token (JWT check)
+        if (senderUser._id.toString() !== req.user._id.toString()) {
+            console.log("Sender ID:", senderUser._id.toString());
+            console.log("Requester ID:", req.user._id.toString());
+            
+            return res.status(401).json({ message: "Unauthorized request", success: false });
+        }
+
+        // Step 3: Check if sender has sufficient balance
+        if (senderUser.wallet.balance < Amount) {
+            return res.status(400).json({ message: "Insufficient balance", success: false });
+        }
+
+        // Step 4: Find the receiver user by their UPI ID
+        const receiverUser = await UserModel.findOne({ 'wallet.UpiId': ReceiverUpiId });
+
+        if (!receiverUser) {
+            return res.status(404).json({ message: "Receiver not found", success: false });
+        }
+
+        // Step 5: Deduct the amount from the sender's balance
+        senderUser.wallet.balance -= Amount;
+
+        // Step 6: Add the amount to the receiver's balance
+        receiverUser.wallet.balance += Amount;
+
+        // Step 7: Log the transaction in both sender's and receiver's sendMoney array
+        const transaction = {
+            SenderUpiId: senderUser.wallet.UpiId,
+            ReceiverUpiId: receiverUser.wallet.UpiId,
+            Amount,
+            Date: new Date(),
+        };
+
+        senderUser.wallet.sendMoney.push(transaction);
+        receiverUser.wallet.sendMoney.push(transaction);
+
+        // Step 8: Save the updated users
+        await senderUser.save();
+        await receiverUser.save();
+
+        // Step 9: Respond with a success message
+        res.status(200).json({
+            success: true,
+            message: "Money transferred successfully",
+            senderWallet: senderUser.wallet,
+            receiverWallet: receiverUser.wallet,
+        });
+    } catch (err) {
+        console.error("Error during money transfer:", err.message);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: err.message,
+        });
+    }
+};
+
 
 
 module.exports = {
@@ -303,6 +372,7 @@ module.exports = {
     updateUserProfile,
     getUserProfile,
     getUserWallet,
-    updateUserWallet
+    updateUserWallet,
+    SendMoney,
   
 }

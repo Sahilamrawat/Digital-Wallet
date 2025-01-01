@@ -79,7 +79,7 @@ function Navheader() {
       </div>
       <div className='nav-links relative'>
         <ul className="link-item flex gap-6 font-semibold">
-          <li className="cursor-pointer hover:scale-105  transition-transform duration-100" onClick={() => navigate('/home')}>Home</li>
+          <li className="cursor-pointer hover:scale-105  transition-transform duration-100" onClick={() => navigate('/')}>Home</li>
           <li className="relative cursor-pointer hover:scale-105 transition-transform duration-100" onClick={services_toggleDropdown}>
             Services
             <ServicesDropDown isOpen={services_dropdownOpen}/>

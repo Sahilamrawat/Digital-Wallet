@@ -16,7 +16,7 @@ function App() {
   
 
   return (
-    <div>
+    <div className='font-archivo'>
       <BrowserRouter>
         <Routes>
           <Route path="/"element={<Home/>}/>

@@ -44,6 +44,13 @@ const UserSchema = new Schema({
         balance:{type:Number,default:0},
         transactionType:{type:String,default:'add'},
         lastUpdated: { type: Date, default: Date.now },
+        sendMoney:[{
+            SenderUpiId:{type:String,default:''},
+            ReceiverUpiId:{type:String,default:''},
+            Amount:{type:Number,default:0},
+            Date:{type:Date,default:Date.now},
+        
+        }],
     }
 });
 

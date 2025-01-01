@@ -46,7 +46,7 @@ function Login() {
                 localStorage.setItem('token', jwtToken);
                 localStorage.setItem('loggedInUser', userName);
                 setTimeout(() => {
-                    navigate('/home')
+                    navigate('/')
                 }, 1000)
             } else if (error) {
                 const details = error?.details[0].message;

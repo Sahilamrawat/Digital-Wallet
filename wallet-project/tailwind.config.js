@@ -6,7 +6,12 @@ export default {
   ],
   theme: {
     extend: {
-      denk: ['Denk One', 'sans-serif'],
+      fontFamily: {
+        sans: ['Roboto', 'sans-serif','Oswald'],
+        heading: ['Open Sans', 'Arial', 'sans-serif'],
+        denk: ['Denk One', 'sans-serif'],
+        archivo: ['Archivo', 'sans-serif'],
+      },
     },
   },
   plugins: [],

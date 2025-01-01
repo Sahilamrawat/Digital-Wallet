@@ -57,6 +57,7 @@ function MyWallet() {
             });
 
             setBalance(response.data.user.wallet.balance);
+            localStorage.setItem('userWalletUpi', JSON.stringify(response.data.user.wallet.UpiId)); 
             setTransactions(response.data.transactions || []);
         } catch (err) {
             setError(err.response?.data?.message || 'Error fetching wallet data');

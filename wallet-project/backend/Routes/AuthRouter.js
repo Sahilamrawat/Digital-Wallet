@@ -1,4 +1,4 @@
-const { signup, login, updateUserProfile, getUserProfile, getUserWallet, updateUserWallet } = require('../Controllers/AuthController');
+const { signup, login, updateUserProfile, getUserProfile, getUserWallet, updateUserWallet, SendMoney } = require('../Controllers/AuthController');
 const { signupValidation, loginValidation, protect } = require('../Middlewares/AuthValidation');
 
 const router = require('express').Router();
@@ -11,4 +11,5 @@ router.put('/updateProfile',protect,updateUserProfile)
 router.get('/getProfile',protect,getUserProfile)
 router.get('/getWallet',protect,getUserWallet) 
 router.post('/updateWallet',protect,updateUserWallet)
+router.post('/sendMoney',protect,SendMoney)
 module.exports = router;

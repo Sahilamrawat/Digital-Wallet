@@ -5,6 +5,7 @@ import './Styles.css'
 
 
 
+
 var upiId='';
 function Profile() {
     const [profilePic, setProfilePic] = useState(() => {
@@ -262,7 +263,7 @@ function Profile() {
         return 'https://via.placeholder.com/150'; // Fallback to placeholder
     };
     return (
-        <div className="main-profile font-Denk  bg-gray-100 w-[80%] overflow-y-scroll rounded-xl text-center flex flex-col items-center flex-grow py-2">
+        <div className="main-profile   bg-gray-100 w-[80%] overflow-y-scroll rounded-xl text-center flex flex-col items-center flex-grow py-2">
             
             <div className="Profile-display shadow-md rounded-xl pb-4 w-[95%] bg-white mt-[25px] flex flex-col p-4 justify-between items-start relative">
                 <div className='flex justify-between w-full'>
