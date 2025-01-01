@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import user from '../assets/user.svg';
+import './Styles.css'
 
+
+
+var upiId='';
 function Profile() {
     const [profilePic, setProfilePic] = useState(() => {
         return localStorage.getItem('profilePic') || null;
@@ -24,8 +29,10 @@ function Profile() {
                   phone: '',
                   dob: '',
                   kycStatus: '',
+                  
               };
     });
+    
 
     const [userAddress, setUserAddress] = useState(() => {
         const savedUserAddress = localStorage.getItem('userAddress');
@@ -64,10 +71,12 @@ function Profile() {
             updatedData.dob = userDetails.dob;
         }
     
+       
         // Only add address if it is defined
         if (userAddress !== undefined) {
             updatedData.address = userAddress;
         }
+        
     
         // Log the updatedData to check if all the fields are correctly added
         console.log("updatedData to send:", updatedData);
@@ -88,6 +97,7 @@ function Profile() {
             if (response.data.success) {
                 // Save the updated user profile to local storage
                 localStorage.setItem('userDetails', JSON.stringify(response.data.user));
+                
                 localStorage.setItem('userAddress', JSON.stringify(response.data.user.address));
                 alert("Profile updated successfully");
             }
@@ -127,6 +137,7 @@ function Profile() {
                 });
 
                 setUserDetails(response.data.user);
+                upiId=(response.data.user.wallet.UpiId);
                 setUserAddress(response.data.user.address); // Assuming address is inside the user object
             } catch (err) {
                 setError(err.response?.data?.message || 'Error fetching profile');
@@ -162,23 +173,46 @@ function Profile() {
     }
 
     // Handle profile picture change
-    const handleProfilePicChange = (event) => {
-        const file = event.target.files[0];
+    const handleProfilePicChange = async (event) => {
+        const file = event.target.files[0]; // The selected file
+    
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setProfilePic(reader.result);
-                localStorage.setItem('profilePic', reader.result);
-            };
-            reader.readAsDataURL(file);
+            const formData = new FormData();
+            formData.append("profilePic", file); // Append the file to FormData
+    
+            try {
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    alert("Authentication token is missing.");
+                    return;
+                }
+    
+                const response = await axios.post(
+                    "http://localhost:8080/auth/upload",
+                    formData,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                            "Authorization": `Bearer ${token}`, // Pass authentication token
+                        },
+                    }
+                );
+    
+                if (response.data.success) {
+                    console.log("Uploaded file path:", response.data.filePath);
+                    alert("Profile picture uploaded successfully");
+                }
+            } catch (error) {
+                console.error("Error uploading file:", error.response || error);
+                alert("Failed to upload profile picture.");
+            }
         }
     };
 
     const handleRemoveProfilePic = () => {
-        setProfilePic(null);
-        localStorage.removeItem('profilePic');
+        setProfilePic(null); // Clear the profile picture
+        // handleSaveProfile(null); // Save the profile with no picture
     };
-
     // Toggle editing states
     const handleEditToggle = () => {
         setIsEditing(!isEditing);
@@ -215,8 +249,20 @@ function Profile() {
         }));
     };
 
+
+    const getProfilePicUrl = () => {
+        if (profilePic) {
+            try {
+                return URL.createObjectURL(profilePic); // Create URL only if profilePic is valid
+            } catch (error) {
+                console.error('Error creating object URL for profile picture:', error);
+                return 'https://via.placeholder.com/150'; // Fallback to placeholder if error occurs
+            }
+        }
+        return 'https://via.placeholder.com/150'; // Fallback to placeholder
+    };
     return (
-        <div className="main-profile bg-gray-100 w-[80%] overflow-y-scroll rounded-xl text-center flex flex-col items-center flex-grow py-2">
+        <div className="main-profile font-Denk  bg-gray-100 w-[80%] overflow-y-scroll rounded-xl text-center flex flex-col items-center flex-grow py-2">
             
             <div className="Profile-display shadow-md rounded-xl pb-4 w-[95%] bg-white mt-[25px] flex flex-col p-4 justify-between items-start relative">
                 <div className='flex justify-between w-full'>
@@ -243,24 +289,42 @@ function Profile() {
                 <div className=' w-full flex   items-center relative'>
                     <div className='contain-content ml-4 mr-[350px]'>
                         <div className='profile-image  '>
-                            <img
-                                src={profilePic || 'https://via.placeholder.com/150'}
-                                alt="Profile"
-                                className=" rounded-full w-32 h-32 object-cover border-1 border-gray-300"
-                                
+                        <img
+                            src={user}
+                            alt="Profile"
+                            className="rounded-full w-32 h-32 object-cover border-1 border-gray-300"
+                            // name="profilePic"
+                        />
+
+                        {/* Upload and Remove Profile Picture Operations
+                        <div className="mt-4">
+                            <button
+                                className="text-white px-2 py-1 rounded-md bg-blue-600 hover:bg-blue-700"
+                                onClick={() => document.getElementById('profile-pic-input').click()}
+                            >
+                                Upload
+                            </button>
+                            <input
+                                id="profile-pic-input"
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={handleProfilePicChange}
                             />
-                            
-                            <ProfileOperation
-                                profilePic={profilePic}
-                                handleProfilePicChange={handleProfilePicChange}
-                                handleRemoveProfilePic={handleRemoveProfilePic}
-                            />
+                            <button
+                                className="text-white px-2 py-1 ml-2 rounded-md bg-red-600 hover:bg-red-700"
+                                onClick={handleRemoveProfilePic}
+                            >
+                                Remove
+                            </button>
+                        </div> */}
+
                             
                         </div>
                     </div>
                     
                     <div className='m-3 p-2 text-[18px]'>
-                        <h1 className='font-bold font-serif'>Name</h1>
+                        <h2 className='font-bold '>Name</h2>
                         <div className="font-thin mb-2">
                         {isEditing ? (
                             <input
@@ -275,7 +339,7 @@ function Profile() {
                         )}
                         </div>
                       
-                        <h1 className='font-bold font-serif'>Email</h1>
+                        <h2 className='font-bold '>Email</h2>
                         <div className="font-thin mb-2">
                         {isEditing ? (
                             <input
@@ -290,7 +354,7 @@ function Profile() {
                         )}
                         </div>
                         
-                        <h1 className='font-bold font-serif'>Status</h1>
+                        <h2 className='font-bold '>Status</h2>
                         <div className="font-thin">
                         {isEditing ? (
                             <input
@@ -335,7 +399,7 @@ function Profile() {
                 
                 <div className=' w-full flex p-4 justify-between items-center relative'>
                     <div className='m-3 p-2 text-[18px] flex '>
-                        <h1 className='font-bold font-serif mr-4'>Mobile-No:</h1>
+                        <h2 className='font-bold  mr-4'>Mobile-No:</h2>
                         <div className="font-thin">
                             {isPhoneEditing ? (
                                 <input
@@ -378,7 +442,7 @@ function Profile() {
                 
                 <div className=' w-full flex p-4 justify-between items-center relative'>
                     <div className='m-3 p-2 text-[18px] flex '>
-                        <h1 className='font-bold font-serif mr-4'>Birth-Date:</h1>
+                        <h2 className='font-bold  mr-4'>Birth-Date:</h2>
                         <div className="font-thin">
                             {isDobEditing ? (
                                 <input
@@ -422,7 +486,7 @@ function Profile() {
                 <div className=' w-full flex p-4 justify-between items-center relative'>
                     <div className='flex flex-col'>
                         <div className='m-3 p-2 text-[18px] flex '>
-                            <h1 className='font-bold font-serif mr-4'>Street:</h1>
+                            <h2 className='font-bold mr-4'>Street:</h2>
                             <div className="font-thin">
                                 {isAddressEditing ? (
                                     <input
@@ -438,7 +502,7 @@ function Profile() {
                             </div>
                         </div>
                         <div className='m-3 p-2 text-[18px] flex '>
-                            <h1 className='font-bold font-serif mr-4'>City:</h1>
+                            <h2 className='font-bold  mr-4'>City:</h2>
                             <div className="font-thin">
                                 {isAddressEditing ? (
                                     <input
@@ -454,7 +518,7 @@ function Profile() {
                             </div>
                         </div>
                         <div className='m-3 p-2 text-[18px] flex '>
-                            <h1 className='font-bold font-serif mr-4'>State:</h1>
+                            <h2 className='font-bold mr-4'>State:</h2>
                             <div className="font-thin">
                                 {isAddressEditing ? (
                                     <input
@@ -470,7 +534,7 @@ function Profile() {
                             </div>
                         </div>
                         <div className='m-3 p-2 text-[18px] flex '>
-                            <h1 className='font-bold font-serif mr-4'>ZIP:</h1>
+                            <h2 className='font-bold  mr-4'>ZIP:</h2>
                             <div className="font-thin">
                                 {isAddressEditing ? (
                                     <input
@@ -529,123 +593,97 @@ function ProfileOperation({ profilePic, handleProfilePicChange, handleRemoveProf
 }
 const ManageUpi = () => {
     const [isUpiEditing, setIsUpiEditing] = useState(false);
-    const [userDetails, setUserDetails] = useState(() => {
-        const savedUserDetails = localStorage.getItem('userDetails');
-        return savedUserDetails
-            ? { ...JSON.parse(savedUserDetails), UpiList: JSON.parse(savedUserDetails).UpiList || [] }
-            : {
-                  name: '',
-                  email: '',
-                  phone: '',
-                  dob: '',
-                  kycStatus: '',
-                  UpiList: [], // Initialize as an empty array
-              };
-    });
-    const [newUpi, setNewUpi] = useState(""); // Temporary state for new UPI input
+    const [newUpiId, setNewUpiId] = useState(upiId);
 
-    // Handle toggling between edit/create mode
+ 
+    const handleSaveProfile = async () => {
+        const updatedData = {};
+
+        // Ensure UPI ID is added to the update data
+        if (upiId !== undefined) {
+            updatedData.wallet = { UpiId: upiId };
+            console.log("upi:",updatedData.wallet.UpiId);
+        }
+
+        console.log("updatedData to send:", updatedData);
+
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert("Authentication token is missing.");
+                return;
+            }
+
+            const response = await axios.put('http://localhost:8080/auth/updateProfile', updatedData, {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                },
+            });
+
+            if (response.data.success) {
+                upiId = response.data.user.wallet.UpiId;
+                localStorage.setItem('userWalletUpi', JSON.stringify(upiId));
+                alert("Profile updated successfully");
+            }
+        } catch (err) {
+            console.error("Error response:", err.response);
+            alert("Error updating profile: " + (err.response ? err.response.data.message : err.message));
+        }
+    };
+
     const handleUpiEditToggle = () => {
         if (isUpiEditing) {
-            if (newUpi.trim()) {
-                // Limit to 3 UPI IDs
-                if (userDetails.UpiList.length >= 1) {
-                    alert("You can only add up to 1 UPI IDs.");
-                    setIsUpiEditing(false);
-                    return;
-                }
-                // Add new UPI ID to the list
-                setUserDetails((prevDetails) => ({
-                    ...prevDetails,
-                    UpiList: [...prevDetails.UpiList, newUpi.trim()],
-                }));
-                setNewUpi(""); // Clear input field
-            }
+            // Save the updated UPI ID before exiting edit mode
+            upiId = newUpiId.trim(); // Update the global variable
+            handleSaveProfile();
         }
-        setIsUpiEditing((prev) => !prev);
+        setIsUpiEditing((prev) => !prev); // Toggle the edit mode
     };
 
-
-    // Handle UPI input change
     const handleNewUpiChange = (e) => {
-        setNewUpi(e.target.value);
-    };
-
-    // Handle removing an existing UPI ID
-    const handleRemoveUpi = (index) => {
-        setUserDetails((prevDetails) => ({
-            ...prevDetails,
-            UpiList: prevDetails.UpiList.filter((_, i) => i !== index),
-        }));
+        setNewUpiId(e.target.value);
     };
 
     useEffect(() => {
-        localStorage.setItem('userDetails', JSON.stringify(userDetails));
-        
-
-    }, [userDetails]);
+        const storedUpiId = JSON.parse(localStorage.getItem('userWalletUpi'));
+        if (storedUpiId) {
+            upiId = storedUpiId;
+            setNewUpiId(storedUpiId);
+        }
+    }, []);
 
     return (
         <div className="Profile-display shadow-md rounded-xl pb-4 w-[95%] mb-[25px] bg-white mt-[25px] flex flex-col p-4 justify-between items-start relative">
-            
             <div className="flex justify-between w-full">
-                <h1 className="text-[25px] font-bold uppercase">Manage UPI IDs</h1>
+                <h1 className="text-[25px] font-bold uppercase">Manage UPI ID</h1>
                 <div className="Edit-btn">
                     <button
                         className={`text-white px-6 py-2 rounded-lg ${
                             isUpiEditing
-                                ? "bg-green-500 hover:bg-green-600"
-                                : "bg-blue-800 hover:bg-blue-900"
+                                ? 'bg-green-500 hover:bg-green-600'
+                                : 'bg-blue-800 hover:bg-blue-900'
                         }`}
-                        onClick={handleUpiEditToggle }
+                        onClick={handleUpiEditToggle}
                     >
-                        {isUpiEditing ? "Save New" : "Create"}
+                        {isUpiEditing ? 'Save' : 'Edit'}
                     </button>
                 </div>
             </div>
 
             <div className="w-full flex flex-col p-4 justify-between items-start relative">
-                <h2 className="text-[18px] font-bold font-serif mb-2">Your UPI IDs:</h2>
-                {Array.isArray(userDetails.UpiList) && userDetails.UpiList.length > 0 ? (
-                    userDetails.UpiList.map((upi, index) => (
-                        <div
-                            key={index}
-                            className="flex justify-between items-center w-full border-b-2 border-gray-300 rounded  py-2"
-                        >
-                            <p className="font-thin">{upi}</p>
-                            <button
-                                className="text-red-500 hover:underline text-sm"
-                                onClick={() => handleRemoveUpi(index)}
-                            >
-                                Remove
-                            </button>
-                        </div>
-                    ))
-                ) : (
-                    <p className="text-gray-500">No UPI IDs added yet.</p>
-                    
-                )}
-            </div>
-
-            {isUpiEditing && userDetails.UpiList.length < 3 && (
-                <div className="w-full mt-4">
+                <h2 className="text-[18px] font-bold font-serif mb-2">Your UPI ID:</h2>
+                {isUpiEditing ? (
                     <input
                         type="text"
-                        value={newUpi}
+                        value={newUpiId}
                         onChange={handleNewUpiChange}
-                        placeholder="Enter new UPI ID"
+                        placeholder="Enter UPI ID"
                         className="border border-gray-300 rounded px-2 py-1 w-full"
                     />
-                </div>
-            )}
-
-            {userDetails.UpiList.length >= 3 && (
-                <p className="text-red-500 mt-2">Maximum limit of 1 UPI IDs reached.</p>
-            )}
-            
+                ) : (
+                    <p className="text-gray-800">{upiId || 'No UPI ID set yet.'}</p>
+                )}
+            </div>
         </div>
     );
 };
-
-
-

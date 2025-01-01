@@ -5,9 +5,9 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      denk: ['Denk One', 'sans-serif'],
+    },
   },
-  plugins: [
-    require('tailwind-scrollbar'),
-  ],
+  plugins: [],
 }

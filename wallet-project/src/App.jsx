@@ -10,6 +10,7 @@ import Login from './Components/Login'
 import Signup from './Components/Signup'
 
 import MyAccount from './Components/MyAccount'
+import SendMoney from './Components/SendMoney'
 function App() {
 
   
@@ -19,11 +20,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/"element={<Home/>}/>
-          <Route path="/home" element={<Home/>}/>
+        
           <Route path="/login" element={<Login/>}/>
           <Route path="/signup" element={<Signup/>}/>
           <Route path="/wallet" element={<MyAccount/>}/>
-          
+          <Route path="/send-money" element={<SendMoney/>}/>
         </Routes>
       </BrowserRouter>
     </div>
@@ -31,11 +32,12 @@ function App() {
 }
 function Home(){
   return(
-    <div className="main-container  scrollbar-thin scrollbar-thumb-[#2E5077] scrollbar-track-[#ffffff]  w-[100vw] h-[100vh] m-0 p-0 overflow-x-hidden flex flex-col" >
-      <Navheader/>
-      <Hero/>
-      <FeaturesSection/>
+    <div className="main-container  w-[100vw] h-[100vh] m-0 p-0 overflow-x-hidden flex flex-col">
+      <Navheader />
+      <Hero />
+      <FeaturesSection />
     </div>
+
   )
 }
 export default App

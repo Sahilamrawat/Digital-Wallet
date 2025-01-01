@@ -1,8 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const UserModel = require("../Models/Users");
-
-
 const signup = async (req, res) => {
     try {
         const { userName, email, password, dob, confirmPassword ,phone} = req.body;
@@ -83,7 +81,7 @@ const updateUserProfile = async (req, res) => {
         user.email = req.body.email || user.email;
         user.phone = req.body.phone || user.phone;
         user.dob = req.body.dob || user.dob;
-        user.profilePic=req.body.dob||user.profilePic;
+        user.wallet.UpiId = req.body.wallet.UpiId || user.wallet.UpiId;
         user.address = req.body.address || user.address;
 
         // Update password securely if provided
@@ -112,8 +110,12 @@ const updateUserProfile = async (req, res) => {
                 email: updatedUser.email,
                 phone: updatedUser.phone,
                 dob: updatedUser.dob,
-                profilePic:updatedUser.profilePic,
+                
                 address: updatedUser.address,
+                wallet: {
+                    UpiId: updatedUser.wallet.UpiId,
+                    
+                },
             },
             token: jwtToken,
         });
@@ -149,9 +151,13 @@ const getUserProfile = async (req, res) => {
                 email: user.email,
                 phone: user.phone,
                 dob: user.dob,
-                profilePic:user.profilePic,
+                
                 address: user.address,
                 kycStatus:user.kycStatus,
+                wallet: {
+                    UpiId: user.wallet.UpiId,
+                    
+                },
 
             },
         });
@@ -165,9 +171,138 @@ const getUserProfile = async (req, res) => {
     }
 };
 
+const getUserWallet = async (req, res) => {
+    try {
+        // Retrieve the user using the ID from the decoded token
+        const user = await UserModel.findById(req.user._id);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found", success: false });
+        }
+
+        // Generate UPI ID if it doesn't exist
+        if (!user.wallet.UpiId) {
+            const generateUpiId = () => {
+                const { userName: name, dob } = user;
+            
+                if (!name || !dob) return ''; // Ensure necessary fields are available
+            
+                // Remove spaces and jumble logic
+                const jumble = (str) => str.split('').sort(() => Math.random() - 0.5).join('');
+                const cleanedName = name.replace(/\s+/g, ''); // Remove all spaces from the name
+                const jumbledName = jumble(cleanedName);
+                const jumbledDob = jumble(dob.replace(/-/g, '')); // Remove dashes from DOB
+            
+                return `${jumbledName}${jumbledDob}@pay`;
+            };
+
+            const newUpiId = generateUpiId();
+
+            // Update user wallet with generated UPI ID
+            user.wallet.UpiId = newUpiId;
+            await user.save();
+        }
+
+        // Respond with the user data, including the wallet details
+        res.status(200).json({
+            success: true,
+            user: {
+                _id: user._id,
+                userName: user.userName,
+                email: user.email,
+                phone: user.phone,
+                dob: user.dob,
+                address: user.address,
+                kycStatus: user.kycStatus,
+                wallet: {
+                    UpiId: user.wallet.UpiId,
+                    balance: user.wallet.balance,
+                },
+            },
+        });
+    } catch (err) {
+        console.error("Error fetching user wallet:", err.message);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: err.message,
+        });
+    }
+};
+
+const updateUserWallet = async (req, res) => {
+    try {
+        // Retrieve the user using the ID from the decoded token
+        const user = await UserModel.findById(req.user._id);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found", success: false });
+        }
+
+        // Extract transaction details from the request body
+        const { balanceChange, transactionType } = req.body;
+
+        // Validate inputs
+        if (typeof balanceChange !== 'number' || balanceChange <= 0) {
+            return res.status(400).json({ 
+                message: "Invalid balance change value. Must be a positive number.", 
+                success: false 
+            });
+        }
+        if (!['add', 'send'].includes(transactionType)) {
+            return res.status(400).json({ 
+                message: "Invalid transaction type. Must be 'add' or 'send'.", 
+                success: false 
+            });
+        }
+
+        // Update the wallet balance based on transaction type
+        if (transactionType === 'add') {
+            user.wallet.balance += balanceChange; // Add balance
+        } else if (transactionType === 'send') {
+            if (user.wallet.balance < balanceChange) {
+                return res.status(400).json({ 
+                    message: "Insufficient balance for the transaction.", 
+                    success: false 
+                });
+            }
+            user.wallet.balance -= balanceChange; // Subtract balance
+        }
+
+        // Update the lastUpdated timestamp
+        user.wallet.lastUpdated = Date.now(); // Set timestamp for when the balance was updated
+
+        // Save the updated user information
+        const updatedUser = await user.save();
+
+        // Respond with updated wallet information
+        res.status(200).json({
+            success: true,
+            message: "Wallet updated successfully",
+            wallet: {
+                UpiId: updatedUser.wallet.UpiId,
+                balance: updatedUser.wallet.balance,
+                transactionType: transactionType,
+                lastUpdated: updatedUser.wallet.lastUpdated, // Include the timestamp in the response
+            },
+        });
+    } catch (err) {
+        console.error("Error updating wallet:", err.message);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: err.message,
+        });
+    }
+};
+
+
 module.exports = {
     signup,
     login,
     updateUserProfile,
-    getUserProfile
+    getUserProfile,
+    getUserWallet,
+    updateUserWallet
+  
 }

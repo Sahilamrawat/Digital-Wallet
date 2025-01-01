@@ -3,6 +3,7 @@
    
     
 } */
+ 
 
 .link-item li{
     padding: 5px;
@@ -156,4 +157,9 @@
 .signup-btn:hover {
   box-shadow: 0 0 15px 5px rgba(77, 161, 169, 0.7); /* Glow effect */
   transform: scale(1.1); /* Slight zoom-in effect */
+}
+
+
+.main-profile h1{
+  color:#2E5077;
 }

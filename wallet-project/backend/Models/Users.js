@@ -32,16 +32,18 @@ const UserSchema = new Schema({
         required:true,
         default:"Verified",
     },
-    profilePic:{
-        type:String,
-        required:true,
-        default:"https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
-    },
+ 
     address: {
         Street: {type: String, default: '' },
         city: { type: String, default: '' },
         State: { type: String, default: '' },
         ZIP: { type: String, default: '' }, // Example: Validates a 5-digit ZIP code
+    },
+    wallet:{
+        UpiId:{type:String,unique:true,default:''},
+        balance:{type:Number,default:0},
+        transactionType:{type:String,default:'add'},
+        lastUpdated: { type: Date, default: Date.now },
     }
 });
 

@@ -11,9 +11,7 @@ const ServicesDropDown = ({ isOpen }) => {
   return (
     <div className={`profile-dropdown ${isOpen ? 'block' : 'hidden'} w-[max] bg-white text-[#213555] absolute right--1 top-12 rounded-lg shadow-lg`}>
       <ul className="py-2 flex flex-col items-center">
-        <li>Send Money</li>
-        <hr />
-        <li >Approve To Pay</li>
+        <li onClick={()=>navigate('./send-money')}>Send Money</li>
         <hr />
         <li >Recharge & Pay</li>
         <hr />
@@ -59,7 +57,7 @@ function Navheader() {
             <p className='font-extralight'><i>{loggedInUser}</i></p>
           </div>
           <div 
-            className="avatar flex items-center justify-center w-10 h-10 rounded-full bg-[#4DA1A9] mr-8 text-white font-bold cursor-pointer hover:shadow-lg hover:scale-105 transition-transform duration-300" 
+            className="avatar flex items-center justify-center w-10 h-10 rounded-full bg-[#4DA1A9]  text-white font-bold cursor-pointer hover:shadow-lg hover:scale-105 transition-transform duration-300" 
             onClick={() => navigate('/wallet')}
           >
             
@@ -74,7 +72,7 @@ function Navheader() {
   };
   // Empty dependency
   return (
-    <nav id='nav-bar' className='nav-section  flex justify-between items-center p-2 px-5 text-[18px] bg-[#F6F4F0] text-[#2E5077]'>
+    <nav id='nav-bar' className='nav-section  flex justify-between items-center p-2 px-5 text-[18px] w-[100%] bg-[#F6F4F0] text-[#2E5077]'>
       <div className='logo-header flex items-center gap-2'>
         <img src={logo} onClick={() =>navigate('/')} alt="" className="cursor-pointer h-10 w-10" />
         <p className='font-bold '>Digital Wallet</p>
@@ -99,7 +97,7 @@ function Navheader() {
           onClick={() => navigate('/login')}
         >
           <button className='font-semibold text-white text-[14px]'>Login</button>
-          <LoginIcon className='text-white' fontSize='small' />
+          <LoginIcon className='text-white' fontSize='small'/>
         </div>
       )}
 

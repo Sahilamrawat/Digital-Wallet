@@ -36,10 +36,10 @@ const TransactionList = () => {
   };
 
   return (
-    <div>
+    
       
       <div
-        className="w-full h-[420px] p-[10px] flex flex-col items-center text-center overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-[#2E5077] scrollbar-track-[#ffffff]"
+        className="w-full h-[100%] p-[10px] flex flex-col items-center text-center overflow-y-auto overflow-x-hidden ]"
         ref={containerRef}
       >
         {transactions.map((transaction, index) => (
@@ -51,7 +51,7 @@ const TransactionList = () => {
           </div>
         ))}
       </div>
-    </div>
+    
   );
 };
 

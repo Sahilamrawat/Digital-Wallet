@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
 import TransactionList from './TransactionList.jsx'
 import Chart from 'chart.js/auto';
-import { useRef, useEffect } from 'react';
 
-function MyWallet(){
+function MyWallet() {
+  const [balance, setBalance] = useState(null);
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [amount, setAmount] = useState('');
+  const [paymentType, setPaymentType] = useState(''); // State for payment type
+
   const labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const dataset = [
     {
@@ -28,69 +36,210 @@ function MyWallet(){
       borderWidth: 1,
     },
   ];
-  return(
-    <div className="main-wallet bg-gray-100 w-[80%] overflow-y-scroll   rounded-xl text-center flex flex-col flex-grow items-center  py-6">
-        <div className="wallet-display shadow-md rounded-lg pb-4 w-[95%] bg-white m-[10px] flex justify-between">
-          <div className="rounded-lg flex-col flex-grow">
-            <div className="text-start text-[40px] font-bold px-4 py-2 m-[10px] w-max">
-              My Wallet
-            </div>
-            <div className="text-start text-[40px] font-semibold px-6 w-max text-[#2E5077]">
-              <p className="text-sm px-1 w-max">Current balance in your wallet</p>
-              $0.00
-            </div>
+
+  // Fetch data from API
+  useEffect(() => {
+    const fetchData = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setError('No token found');
+            setLoading(false);
+            return;
+        }
+
+        try {
+            const response = await axios({
+                method: 'get',
+                url: 'http://localhost:8080/auth/getWallet',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            setBalance(response.data.user.wallet.balance);
+            setTransactions(response.data.transactions || []);
+        } catch (err) {
+            setError(err.response?.data?.message || 'Error fetching wallet data');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    fetchData();
+    const intervalId = setInterval(fetchData, 10000); // Poll every 10 seconds
+
+    return () => clearInterval(intervalId); // Cleanup interval on component unmount
+  }, []);
+
+  // Handle adding money and updating wallet
+  const handleChange = async (balanceChange, transactionType) => {
+    try {
+        if (typeof balanceChange !== 'number' || balanceChange <= 0) {
+            alert("Invalid balance change value. Must be a positive number.");
+            return;
+        }
+        if (!['add', 'send'].includes(transactionType)) {
+            alert("Invalid transaction type. Must be 'add' or 'send'.");
+            return;
+        }
+
+        const token = localStorage.getItem('token');
+        const response = await axios({
+            method: 'post',
+            url: 'http://localhost:8080/auth/updateWallet',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            data: { balanceChange, transactionType },
+        });
+
+        if (response.data.success) {
+            setBalance(response.data.wallet.balance); // Update the balance
+            setTransactions(prevTransactions => [
+                ...prevTransactions,
+                { type: transactionType, amount: balanceChange, date: new Date().toLocaleString() },
+            ]);
+            alert("Wallet updated successfully.");
+        } else {
+            alert(response.data.message || "Failed to update wallet.");
+        }
+    } catch (err) {
+        console.error("Error updating wallet:", err);
+        alert("Error updating wallet. Please try again.");
+    }
+  };
+
+  // Display loading and error states
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  // Handle modal submit (Add Money form submission)
+  const handleSubmit = () => {
+    const numericAmount = parseFloat(amount);
+    if (!numericAmount || numericAmount <= 0) {
+      alert("Please enter a valid amount.");
+      return;
+    }
+    if (!paymentType) {
+      alert("Please select a payment type.");
+      return;
+    }
+
+    handleChange(numericAmount, 'add');
+    setAmount(''); // Clear the amount input
+    setPaymentType(''); // Clear the payment type input
+    setIsModalOpen(false); // Close modal after submission
+  };
+
+  return (
+    <div className="main-wallet bg-gray-100 w-[80%]   overflow-y-scroll rounded-xl text-center flex flex-col flex-grow items-center py-6">
+      <div className="wallet-display shadow-md rounded-lg pb-4 w-[95%] bg-white m-[10px] flex justify-between">
+        <div className="rounded-lg flex-col flex-grow">
+          <div className="text-start text-[40px] font-bold px-4 py-2 m-[10px] w-max">
+            My Wallet
           </div>
-          <div className="rounded-lg w-max m-[10px] flex justify-center items-center mr-[50px]">
-            <button className="add-money-btn bg-[#4DA1A9] w-[100px] h-[50px] rounded-lg text-white">
-              Add Money
-            </button>
+          <div className="text-start text-[40px] font-semibold px-6 w-max text-[#2E5077]">
+            <p className="text-sm px-1 w-max">Current balance in your wallet</p>
+            {balance !== null && balance !== undefined ? `₹${balance.toFixed(2)}` : 'Loading...'}
           </div>
         </div>
-        <div className=" rounded-lg shadow-md h-max w-[95%] bg-white flex flex-grow-5 justify-between">
-          <div className='transaction-graph-display   rounded-lg w-[70%] '>
-            <div className="text-start text-[25px] font-bold px-4 py-2 m-[10px] w-max">
-              Transaction Graph
-            </div>
-            <div className='graph py-2 px-6 '>
-              <Graph type="line" labels={labels} dataset={dataset} />
-            </div>  
-          </div>
-        
-          <div className='transaction-history-display  w-[30%]  '>
-            
-            <div className=" rounded-lg w-[100%]   flex flex-col">
-              <div className="text-start text-[25px] font-bold px-4 py-2 w-full m-[10px]">
-                History
-              </div>
-              <TransactionList />
-                
-              
-                
-
-
-                {/* Ill add the down array which will display history with more than 4 entries */}
-              
-            </div>
-          </div>
-          
+        <div className="rounded-lg w-max m-[10px] flex justify-center items-center mr-[50px]">
+          <button
+            className="add-money-btn bg-[#4DA1A9] w-[100px] h-[50px] rounded-lg text-white"
+            onClick={() => setIsModalOpen(true)}
+          >
+            Add Money
+          </button>
         </div>
-        
       </div>
-  )
+
+      <div className="rounded-lg shadow-md w-[95%] h-[50%] bg-white flex flex-grow justify-between">
+        <div className="transaction-graph-display rounded-lg w-[70%]  ">
+          <div className="text-start text-[25px] font-bold px-4 py-2 m-[10px] w-max">
+            Transaction Graph
+          </div>
+          <div className="graph py-2 px-6 w-[100%] h-[100%] ">
+            <Graph type="line" labels={labels} dataset={dataset} />
+          </div>
+        </div>
+
+        <div className="transaction-history-display p-4 w-[30%] h-[100%]">
+          <div className="rounded-lg w-[100%]  h-[100%] flex flex-col ">
+            <div className="text-start text-[25px] font-bold px-4 py-2 w-full m-[10px]">
+              History
+            </div>
+            <TransactionList transactions={transactions} />
+          </div>
+        </div>
+      </div>
+
+      {/* Add Money Modal */}
+      {isModalOpen && (
+        <div className="overlay fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="modal bg-white p-6 rounded-lg w-1/3">
+            <h2 className="text-xl font-semibold mb-4">Add Money</h2>
+            <div className="mb-4">
+              <label htmlFor="amount" className="block text-sm font-medium text-gray-700">Amount</label>
+              <input
+                id="amount"
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded mt-1"
+                placeholder="Enter amount"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="paymentType" className="block text-sm font-medium text-gray-700">Payment Type</label>
+              <select
+                id="paymentType"
+                value={paymentType}
+                onChange={(e) => setPaymentType(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded mt-1"
+              >
+                <option value="">Select Payment Type</option>
+                <option value="credit">Credit Card</option>
+                <option value="debit">Debit Card</option>
+                <option value="paypal">PayPal</option>
+              </select>
+            </div>
+            <div className="flex justify-end">
+              <button
+                onClick={handleSubmit}
+                className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+              >
+                Submit
+              </button>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="bg-gray-500 text-white px-4 py-2 rounded"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 const Graph = ({ type, labels, dataset }) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
-    // Destroy existing chart instance before creating a new one
     let chartInstance;
     if (chartRef.current) {
       const ctx = chartRef.current.getContext('2d');
       chartInstance = new Chart(ctx, {
-        type, // Chart type (e.g., 'bar', 'line')
+        type,
         data: {
-          labels, // X-axis labels
+          labels,
           datasets: dataset,
         },
         options: {
@@ -111,4 +260,5 @@ const Graph = ({ type, labels, dataset }) => {
 
   return <canvas ref={chartRef} />;
 };
-export default MyWallet
+
+export default MyWallet;
