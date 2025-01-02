@@ -217,6 +217,7 @@ const getUserWallet = async (req, res) => {
                 wallet: {
                     UpiId: user.wallet.UpiId,
                     balance: user.wallet.balance,
+                    sendMoney: user.wallet.sendMoney,
                 },
             },
         });
@@ -299,18 +300,15 @@ const SendMoney = async (req, res) => {
     try {
         const { SenderUpiId, ReceiverUpiId, Amount } = req.body;
 
-        // Step 1: Retrieve sender user using the UPI ID (from the token or direct UPI ID)
+        // Step 1: Retrieve sender user using the UPI ID
         const senderUser = await UserModel.findOne({ 'wallet.UpiId': SenderUpiId });
 
         if (!senderUser) {
             return res.status(404).json({ message: "Sender not found", success: false });
         }
 
-        // Step 2: Verify the sender using the token's _id or provided token (JWT check)
+        // Step 2: Verify the sender using the token's _id
         if (senderUser._id.toString() !== req.user._id.toString()) {
-            console.log("Sender ID:", senderUser._id.toString());
-            console.log("Requester ID:", req.user._id.toString());
-            
             return res.status(401).json({ message: "Unauthorized request", success: false });
         }
 
@@ -327,27 +325,33 @@ const SendMoney = async (req, res) => {
         }
 
         // Step 5: Deduct the amount from the sender's balance
-        senderUser.wallet.balance -= Amount;
+        senderUser.wallet.balance -= Number(Amount);
 
         // Step 6: Add the amount to the receiver's balance
-        receiverUser.wallet.balance += Amount;
+        receiverUser.wallet.balance += Number(Amount);
 
         // Step 7: Log the transaction in both sender's and receiver's sendMoney array
         const transaction = {
             SenderUpiId: senderUser.wallet.UpiId,
             ReceiverUpiId: receiverUser.wallet.UpiId,
-            Amount,
+            Amount: Number(Amount),
             Date: new Date(),
         };
 
         senderUser.wallet.sendMoney.push(transaction);
         receiverUser.wallet.sendMoney.push(transaction);
 
-        // Step 8: Save the updated users
+        // Step 8: Update weeklyTransactions
+        const transactionDay = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+        const currentAmount = receiverUser.wallet.weeklyTransactions.get(transactionDay) || 0;
+        receiverUser.wallet.weeklyTransactions.set(transactionDay, Number(currentAmount) + 1);
+        senderUser.wallet.weeklyTransactions.set(transactionDay, Number(currentAmount) + 1);
+
+        // Step 9: Save the updated users
         await senderUser.save();
         await receiverUser.save();
 
-        // Step 9: Respond with a success message
+        // Step 10: Respond with a success message
         res.status(200).json({
             success: true,
             message: "Money transferred successfully",
@@ -366,6 +370,31 @@ const SendMoney = async (req, res) => {
 
 
 
+const getWeeklyTransactions = async (req, res) => {
+    try {
+        // Find the user by ID from the token
+        const user = await UserModel.findById(req.user._id);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found", success: false });
+        }
+
+        // Respond with weekly transaction data
+        const weeklyTransactions = user.wallet.weeklyTransactions || {};
+        res.status(200).json({
+            success: true,
+            weeklyTransactions,
+        });
+    } catch (err) {
+        console.error("Error fetching weekly transactions:", err.message);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: err.message,
+        });
+    }
+};
+
 module.exports = {
     signup,
     login,
@@ -374,5 +403,6 @@ module.exports = {
     getUserWallet,
     updateUserWallet,
     SendMoney,
+    getWeeklyTransactions,
   
 }

@@ -51,7 +51,21 @@ const UserSchema = new Schema({
             Date:{type:Date,default:Date.now},
         
         }],
-    }
+        weeklyTransactions: {
+            type: Map,
+            of: Number,
+            default: () => new Map([
+                ["Monday", 0],
+                ["Tuesday", 0],
+                ["Wednesday", 0],
+                ["Thursday", 0],
+                ["Friday", 0],
+                ["Saturday", 0],
+                ["Sunday", 0],
+            ]),
+        },
+    },
+    
 });
 
 const UserModel = mongoose.model('users', UserSchema);

@@ -1,57 +1,96 @@
 import { useRef, useEffect, useState } from "react";
-import React from 'react';
+import axios from "axios"; // Import axios
+import React from "react";
 
 const TransactionList = () => {
   const containerRef = useRef();
-  const [transactions, setTransactions] = useState([
-    { date: "2024-01-01", amount: "₹1000", upiId: "user@bank" },
-    { date: "2024-01-02", amount: "₹500", upiId: "shop@bank" },
-    { date: "2024-01-03", amount: "₹250", upiId: "merchant@bank" },
-    { date: "2024-01-04", amount: "₹700", upiId: "service@bank" },
-    { date: "2024-01-05", amount: "₹1200", upiId: "travel@bank" },
-    { date: "2024-01-03", amount: "₹250", upiId: "merchant@bank" },
-    { date: "2024-01-04", amount: "₹700", upiId: "service@bank" },
-    { date: "2024-01-05", amount: "₹1200", upiId: "travel@bank" },
-    { date: "2024-01-05", amount: "₹1200", upiId: "travel@bank" },
-    { date: "2024-01-03", amount: "₹250", upiId: "merchant@bank" },
-    { date: "2024-01-04", amount: "₹700", upiId: "service@bank" },
-    { date: "2024-01-05", amount: "₹1200", upiId: "travel@bank" },
-  ]);
+  const [transactions, setTransactions] = useState([]);
+  const [error, setError] = useState(null); // Define error state
+  const [loading, setLoading] = useState(true); // Define loading state
 
   useEffect(() => {
-    // Scroll to the bottom whenever the component is rendered or updated
-    if (containerRef.current) {
-      containerRef.current.scrollTop = containerRef.current.scrollHeight;
-    }
-  }, [transactions]); // This will trigger when 'transactions' array changes
-
-  const addTransaction = () => {
-    // Add a new transaction with dummy data (you can customize this as needed)
-    const newTransaction = {
-      date: new Date().toISOString().split("T")[0], // Current date in YYYY-MM-DD format
-      amount: `₹${Math.floor(Math.random() * 2000 + 1)}`, // Random amount
-      upiId: `random@bank${Math.floor(Math.random() * 100)}` // Random UPI ID
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setError("No token found");
+        setLoading(false);
+        return;
+      }
+  
+      try {
+        const response = await axios({
+          method: "get",
+          url: "http://localhost:8080/auth/getWallet",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        // Access the correct path to `sendMoney`
+        const sendMoney = response.data.user?.wallet?.sendMoney || [];
+        setTransactions(sendMoney);
+      } catch (err) {
+        setError(err.response?.data?.message || "Error fetching wallet data");
+      } finally {
+        setLoading(false);
+      }
     };
-    setTransactions([...transactions, newTransaction]);
-  };
+  
+    fetchData();
+    const intervalId = setInterval(fetchData, 10000); // Poll every 10 seconds
+  
+    return () => clearInterval(intervalId); // Cleanup interval on component unmount
+  }, []);
+
+  // useEffect(() => {
+  //   // Scroll to the bottom whenever the component is rendered or updated
+  //   if (containerRef.current) {
+  //     containerRef.current.scrollTop = containerRef.current.scrollHeight;
+  //   }
+  // }, [transactions]); // Trigger when 'transactions' array changes
+
+  // Handle loading and error states
+  if (loading) {
+    return <div className="text-center">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center text-red-500">{error}</div>;
+  }
 
   return (
-    
-      
-      <div
-        className="w-full h-[100%] p-[10px] flex flex-col items-center text-center overflow-y-auto overflow-x-hidden ]"
-        ref={containerRef}
-      >
-        {transactions.map((transaction, index) => (
-          <div key={index} className="h-[200px] rounded-lg m-[7px] p-6 w-full flex justify-around px-4 items-center  cursor-pointer  border-b hover:border-gray-400">
-            <div className="text-sm font-semibold">{transaction.date}</div>
-            <div className="text-sm"> {transaction.upiId}</div>
-            <div className="text-sm">{transaction.amount}</div>
-            
+    <div
+      className="w-full h-full p-4 flex flex-col items-center text-center overflow-y-auto overflow-x-hidden"
+      ref={containerRef}
+    >
+      {transactions.length === 0 ? (
+        <div className="text-gray-500">No transactions available</div>
+      ) : (
+        transactions.map((transaction, index) => (
+          <div
+            key={index}
+            className="h-max rounded-lg my-2 p-4 w-full flex flex-col flex-grow justify-around px-4 items-start cursor-pointer border-b hover:border-gray-400"
+          >
+            <div className="text-sm"><span className="font-bold">Sender Upi: </span>{transaction.SenderUpiId}</div>
+            <div className="text-sm"><span className="font-bold">Receiver Upi: </span>{transaction.ReceiverUpiId}</div>
+            <div className="text-sm"><span className="font-bold">Amount: </span>₹{transaction.Amount}</div>
+            <div className="text-sm">
+              <span className="font-bold">Date: </span>
+              {new Intl.DateTimeFormat('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+              }).format(new Date(transaction.Date))}
+            </div>
+
           </div>
-        ))}
-      </div>
-    
+        ))
+      )}
+    </div>
   );
 };
 

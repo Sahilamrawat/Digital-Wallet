@@ -104,7 +104,7 @@ const SendMoneyPage = () => {
               <input
                 type="text"
                 value={receiverUpiId}
-                onChange={(e) => setReceiverUpiId(e.target.value)}
+                onChange={(e) => setReceiverUpiId(e.target.value.trim())} // Trim spaces
                 placeholder="Enter Receiver's UPI ID"
                 className="border border-gray-300 rounded-md px-4 py-2 w-full focus:ring-2 focus:ring-blue-500"
                 required

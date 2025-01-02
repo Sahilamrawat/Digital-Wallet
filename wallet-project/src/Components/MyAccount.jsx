@@ -9,8 +9,6 @@ import TransactionList from './TransactionList.jsx';
 import { Link } from 'react-router-dom';
 import MyWallet  from './MyWallet.jsx';
 import Profile from './Profile.jsx';
-import ManageAccount from './ManageAccount.jsx';
-import ManageUPI from './ManageUpi.jsx';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function MyAccount() {
@@ -25,15 +23,13 @@ export default MyAccount;
 
 function WalletPage() {
   const [activeIndex, setActiveIndex] = React.useState(0); // Track active li index
+  const [hoveredIndex, setHoveredIndex] = React.useState(null);
   const navigate = useNavigate(); 
   const menuItems = [
     { name: 'Profile' },
     { name: 'My Wallet' },
-    { name: 'Manage Account' },
- 
     { name: 'Logout' },
-    { name: 'Home' },
-   
+    { name: 'Home', icon: <ArrowBackIcon className="mr-2" /> },
   ];
 
   return (
@@ -49,40 +45,37 @@ function WalletPage() {
           <p className="font-bold mt-3 text-[25px] text-white">Digital Wallet</p>
         </div>
         <div>
-          <ul>
-            {menuItems.map((item, index) => (
-              <li
-                key={index}
-                
-                className={`cursor-pointer py-5 px-4 rounded-l-3xl text-white font-semibold ${
-                  activeIndex === index ? 'bg-[#2E5077]' : 'hover:bg-[#35708E] '
-                }`}
-                onClick={() => {
-                  setActiveIndex(index); // Set the active menu item
-                  // navigate(item.path); // Navigate to the selected path
-                  if(index===3){
-                    alert('Logging out ...')
-                    localStorage.setItem('loggedInUser',undefined)
-                    navigate('/login')
-                  }
-                  if(index===4){
-                    
-                    navigate('/')
-                  }
-                  
-                }}
-              >
-                {item.name}
-              </li>
-            ))}
-          </ul>
+        <ul>
+          {menuItems.map((item, index) => (
+            <li
+              key={index}
+              className={`cursor-pointer py-5 px-4 rounded-l-3xl text-white font-semibold flex items-center ${
+                activeIndex === index ? 'bg-[#2E5077]' : 'hover:bg-[#35708E]'
+              }`}
+              onMouseEnter={() => setHoveredIndex(index)} // Track hover index
+              onMouseLeave={() => setHoveredIndex(null)} // Reset hover index
+              onClick={() => {
+                setActiveIndex(index);
+                if (index === 2) {
+                  alert('Logging out ...');
+                  localStorage.setItem('loggedInUser', undefined);
+                  navigate('/login');
+                }
+                if (index === 3) {
+                  navigate('/');
+                }
+              }}
+            >
+              {hoveredIndex === index && item.icon /* Show icon only on hover */}
+              {item.name}
+            </li>
+          ))}
+        </ul>
         </div>
       </div>
    
       {activeIndex === 0 && <Profile />}
       {activeIndex === 1 && < MyWallet/>}
-      {activeIndex === 2 && <ManageAccount />}
-      {activeIndex === 3 && <ManageUPI />}
       
 
       

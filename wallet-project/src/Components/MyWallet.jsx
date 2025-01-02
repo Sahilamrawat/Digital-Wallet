@@ -160,16 +160,16 @@ function MyWallet() {
       </div>
 
       <div className="rounded-lg shadow-md w-[95%] h-[50%] bg-white flex flex-grow justify-between">
-        <div className="transaction-graph-display rounded-lg w-[70%]  ">
+        <div className="transaction-graph-display rounded-lg w-[60%]  ">
           <div className="text-start text-[25px] font-bold px-4 py-2 m-[10px] w-max">
             Transaction Graph
           </div>
           <div className="graph py-2 px-6 w-[100%] h-[100%] ">
-            <Graph type="line" labels={labels} dataset={dataset} />
+            <WeeklyTransactionGraph />
           </div>
         </div>
 
-        <div className="transaction-history-display p-4 w-[30%] h-[100%]">
+        <div className="transaction-history-display p-4 w-[40%] h-[100%]">
           <div className="rounded-lg w-[100%]  h-[100%] flex flex-col ">
             <div className="text-start text-[25px] font-bold px-4 py-2 w-full m-[10px]">
               History
@@ -260,6 +260,68 @@ const Graph = ({ type, labels, dataset }) => {
   }, [type, labels, dataset]);
 
   return <canvas ref={chartRef} />;
+};
+
+const WeeklyTransactionGraph = () => {
+  const [transactions, setTransactions] = useState({});
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchWeeklyTransactions = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setError("No token found");
+          return;
+        }
+
+        const response = await axios.get("http://localhost:8080/auth/getWeeklyTransactions", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.data.success) {
+          setTransactions(response.data.weeklyTransactions);
+        } else {
+          setError("Failed to fetch transactions");
+        }
+      } catch (err) {
+        setError(err.response?.data?.message || "Error fetching transactions");
+      }
+    };
+
+    fetchWeeklyTransactions();
+  }, []);
+
+  const labels = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  const   dataset = [
+    {
+      label: "All Transactions",
+      data: labels.map((day) => transactions[day] || 0), // Map data to the correct labels
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 159, 192, 0.2)',
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)',
+        'rgba(255, 159, 192, 1)',
+      ],
+      borderWidth: 1,
+    },
+  ];
+
+  if (error) return <p>{error}</p>;
+
+  return <Graph type="line" labels={labels} dataset={dataset} />;
 };
 
 export default MyWallet;
