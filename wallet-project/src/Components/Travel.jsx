@@ -8,29 +8,316 @@ import mulan from '../assets/mulan.jpeg';
 import blackAdam from '../assets/blackAdam.jpeg';
 import MovieBooking from '../assets/MovieBooking.svg';
 import FlightBooking from '../assets/FlightBooking.svg'; 
+import BusBooking from '../assets/BusBooking.svg';
+import TrainBooking from '../assets/TrainBooking.svg';
+import MetroBooking from '../assets/MetroBooking.svg';
+import HotelBooking from '../assets/HotelBooking.svg';
 import './Styles.css';
-const flightSchedules = [
-    { airline: 'Air India', departure: '10:00 AM', price: '₹5,000' },
-    { airline: 'IndiGo', departure: '12:30 PM', price: '₹4,500' },
-    { airline: 'SpiceJet', departure: '03:15 PM', price: '₹6,200' },
-    { airline: 'GoAir', departure: '06:00 PM', price: '₹5,500' },
-    { airline: 'Vistara', departure: '08:30 AM', price: '₹7,000' },
-    { airline: 'AirAsia', departure: '09:45 AM', price: '₹4,200' },
-    { airline: 'Jet Airways', departure: '11:00 AM', price: '₹6,800' },
-    { airline: 'Air India', departure: '01:00 PM', price: '₹5,300' },
-    { airline: 'IndiGo', departure: '02:30 PM', price: '₹4,800' },
-    { airline: 'SpiceJet', departure: '04:45 PM', price: '₹5,600' },
-    { airline: 'GoAir', departure: '05:30 PM', price: '₹5,400' },
-    { airline: 'Vistara', departure: '07:00 PM', price: '₹7,500' },
-    { airline: 'AirAsia', departure: '08:15 PM', price: '₹4,700' },
-    { airline: 'Jet Airways', departure: '09:30 PM', price: '₹6,900' },
-    { airline: 'Air India', departure: '10:45 PM', price: '₹5,800' },
-    { airline: 'IndiGo', departure: '11:50 PM', price: '₹4,600' },
-    { airline: 'SpiceJet', departure: '01:15 AM', price: '₹5,400' },
-    { airline: 'GoAir', departure: '02:30 AM', price: '₹5,200' },
-    { airline: 'Vistara', departure: '04:00 AM', price: '₹7,300' },
-    { airline: 'AirAsia', departure: '05:30 AM', price: '₹4,500' }
+const busSchedules = [
+    {
+        busOperator: "Volvo Bus Services",
+        departure: "Delhi 10:00 AM",
+        arrival: "Mumbai 8:00 PM",
+        busType: "AC Sleeper",
+        stops: 3,
+        price: "₹1500"
+    },
+    {
+        busOperator: "Shree Travels",
+        departure: "Delhi 5:00 PM",
+        arrival: "Mumbai 3:00 AM",
+        busType: "Non-AC",
+        stops: 2,
+        price: "₹800"
+    },
+    {
+        busOperator: "SRS Travels",
+        busType: "Non-AC",
+        departure: "Chennai 10:30 AM",
+        arrival: "Bangalore 4:00 PM",
+        price: "₹950",
+    },
+    {
+        busOperator: "VRL Travels",
+        busType: "Sleeper",
+        departure: "Bangalore 11:30 PM",
+        arrival: "Goa 6:00 AM",
+        price: "₹1,100",
+    },
+    {
+        busOperator: "Orange Tours & Travels",
+        busType: "AC",
+        departure: "Hyderabad 9:00 AM",
+        arrival: "Mumbai 6:00 PM",
+        price: "₹1,450",
+    },
+    {
+        busOperator: "KPN Travels",
+        busType: "Non-AC",
+        departure: "Coimbatore 5:00 PM",
+        arrival: "Chennai 11:00 PM",
+        price: "₹850",
+    },
+    {
+        busOperator: "Eagle Travels",
+        busType: "Sleeper",
+        departure: "Bangalore 8:00 PM",
+        arrival: "Chennai 5:30 AM",
+        price: "₹1,000",
+    },
+    {
+        busOperator: "Bharathi Travels",
+        busType: "AC",
+        departure: "Pune 8:30 AM",
+        arrival: "Mumbai 10:30 AM",
+        price: "₹750",
+    },
+    {
+        busOperator: "VRL Travels",
+        busType: "Sleeper",
+        departure: "Mangalore 11:00 PM",
+        arrival: "Mumbai 7:30 AM",
+        price: "₹1,200",
+    },
+    {
+        busOperator: "KSRTC",
+        busType: "AC",
+        departure: "Bangalore 9:00 AM",
+        arrival: "Mysore 11:00 AM",
+        price: "₹500",
+    },
+    {
+        busOperator: "SRS Travels",
+        busType: "Non-AC",
+        departure: "Mumbai 10:00 AM",
+        arrival: "Bangalore 7:30 PM",
+        price: "₹1,050",
+    },
 ];
+
+
+
+const flightSchedules = [
+    {
+        airline: "IndiGo",
+        departure: "06:00 AM",
+        arrival: "08:15 AM",
+        duration: "2h 15m",
+        stops: "Non-Stop",
+        price: "₹5,499"
+    },
+    {
+        airline: "IndiGo",
+        departure: "05:00 AM",
+        arrival: "07:20 AM",
+        duration: "2h 20m",
+        stops: "Non-Stop",
+        price: "₹5,499"
+    },
+    {
+        airline: "IndiGo",
+        departure: "11:55 PM",
+        arrival: "02:15 AM (+1d)",
+        duration: "2h 20m",
+        stops: "Non-Stop",
+        price: "₹5,499"
+    },
+    {
+        airline: "Air India",
+        departure: "07:00 AM",
+        arrival: "09:10 AM",
+        duration: "2h 10m",
+        stops: "Non-Stop",
+        price: "₹5,555"
+    },
+    {
+        airline: "Air India",
+        departure: "08:00 AM",
+        arrival: "10:15 AM",
+        duration: "2h 15m",
+        stops: "Non-Stop",
+        price: "₹5,555"
+    },
+    {
+        airline: "Air India",
+        departure: "10:30 AM",
+        arrival: "12:45 PM",
+        duration: "2h 15m",
+        stops: "Non-Stop",
+        price: "₹5,555"
+    },
+
+    
+   
+];
+
+const trainSchedules = [
+    {
+        trainName: "Rajdhani Express",
+        departureTime: "08:00 AM",
+        arrivalTime: "02:00 PM",
+        trainType: "Superfast",
+        stops: 2,
+        duration: "6h 0m",
+        price: "₹1500",
+    },
+    {
+        trainName: "Shatabdi Express",
+        departureTime: "09:30 AM",
+        arrivalTime: "03:00 PM",
+        trainType: "Express",
+        stops: 3,
+        duration: "5h 30m",
+        price: "₹1200",
+    },
+    {
+        trainName: "Garib Rath Express",
+        departureTime: "10:00 AM",
+        arrivalTime: "06:00 PM",
+        trainType: "AC 3 Tier",
+        stops: 4,
+        duration: "8h 0m",
+        price: "₹950",
+    },
+    {
+        trainName: "Duronto Express",
+        departureTime: "07:15 AM",
+        arrivalTime: "01:15 PM",
+        trainType: "Non-stop",
+        stops: 0,
+        duration: "6h 0m",
+        price: "₹1800",
+    },
+    {
+        trainName: "Intercity Express",
+        departureTime: "06:45 AM",
+        arrivalTime: "11:45 AM",
+        trainType: "Chair Car",
+        stops: 5,
+        duration: "5h 0m",
+        price: "₹600",
+    },
+    {
+        trainName: "Jan Shatabdi",
+        departureTime: "03:00 PM",
+        arrivalTime: "09:00 PM",
+        trainType: "Sleeper",
+        stops: 6,
+        duration: "6h 0m",
+        price: "₹700",
+    },
+    {
+        trainName: "Sampark Kranti",
+        departureTime: "11:30 PM",
+        arrivalTime: "06:30 AM",
+        trainType: "Express",
+        stops: 3,
+        duration: "7h 0m",
+        price: "₹1100",
+    },
+];
+
+const metroSchedules = [
+    {
+        metroName: "Delhi Metro",
+        departureTime: "08:00 AM",
+        arrivalTime: "09:00 AM",
+        stops: 5,
+        duration: "1h 0m",
+        price: "₹50",
+    },
+    {
+        metroName: "Mumbai Metro",
+        departureTime: "09:00 AM",
+        arrivalTime: "10:00 AM",
+        stops: 6,
+        duration: "1h 0m",
+        price: "₹60",
+    },
+    {
+        metroName: "Kolkata Metro",
+        departureTime: "10:00 AM",
+        arrivalTime: "11:00 AM",
+        stops: 7,
+        duration: "1h 0m",
+        price: "₹70",
+    },
+    {
+        metroName: "Chennai Metro",
+        departureTime: "11:00 AM",
+        arrivalTime: "12:00 PM",
+        stops: 8,
+
+        duration: "1h 0m",
+        price: "₹80",
+    },
+    {
+        metroName: "Bangalore Metro",
+        departureTime: "12:00 PM",
+        arrivalTime: "01:00 PM",
+        stops: 9,
+        duration: "1h 0m",
+        price: "₹90",
+    },
+    {
+        metroName: "Hyderabad Metro",
+        departureTime: "01:00 PM",
+        arrivalTime: "02:00 PM",
+        stops: 10,
+        duration: "1h 0m",
+        price: "₹100",
+    },
+    {
+        metroName: "Ahmedabad Metro",
+        departureTime: "02:00 PM",
+        arrivalTime: "03:00 PM",
+        stops: 11,
+        duration: "1h 0m",
+        price: "₹110",
+    },
+    {
+        metroName: "Pune Metro",
+        departureTime: "03:00 PM",
+        arrivalTime: "04:00 PM",
+        stops: 12,
+        duration: "1h 0m",
+        price: "₹120",
+    },
+    {
+        metroName: "Jaipur Metro",
+        departureTime: "04:00 PM",
+
+        arrivalTime: "05:00 PM",
+        stops: 13,
+        duration: "1h 0m",
+        price: "₹130",
+
+    },
+];
+const hotelRooms = [
+    {
+        roomName: "Deluxe Suite",
+        roomType: "Suite",
+        amenities: ["Free WiFi", "Breakfast", "King Bed"],
+        maxGuests: 2,
+        price: "₹2000 / night",
+    },
+    {
+        roomName: "Standard Room",
+        roomType: "Single",
+        amenities: ["Free WiFi", "Air Conditioning"],
+        maxGuests: 1,
+        price: "₹1000 / night",
+    },
+    {
+        roomName: "Family Room",
+        roomType: "Family",
+        amenities: ["Free WiFi", "Breakfast", "2 Queen Beds"],
+        maxGuests: 4,
+        price: "₹3000 / night",
+    },
+];
+
 import { act } from 'react';
 function Travel() {
     return (
@@ -63,10 +350,10 @@ function TravelPage() {
     const backgroundImages = [
         MovieBooking, // Movie Tickets Background
         FlightBooking, // Flight Tickets Background
-        // BusBooking, // Bus Tickets Background
-        // TrainBooking, // Train Tickets Background
-        // MetroBooking, // Metro Tickets Background
-        // HotelBooking, // Hotel Rooms Background
+        BusBooking, // Bus Tickets Background
+        TrainBooking, // Train Tickets Background
+        MetroBooking, // Metro Tickets Background
+        HotelBooking, // Hotel Rooms Background
     ];
 
     return (
@@ -96,7 +383,7 @@ function TravelPage() {
                     backgroundSize: 'contain', // You can change this per section as needed
                 }}
             >
-                <div className="w-[100%] h-[30%] text-[100px] items-center justify-center flex font-mono text-[#2E5077] hover:scale-105 transition-transform duration-300">
+                <div className="w-[100%] h-[30%] text-[100px] items-center justify-center flex font-mono text-white hover:scale-105 transition-transform duration-500">
                     {activeIndex === 0 && <h1>Book Movie Tickets</h1>}
                     {activeIndex === 1 && <h1>Book Flight Tickets</h1>}
                     {activeIndex === 2 && <h1>Book Bus Tickets</h1>}
@@ -127,12 +414,48 @@ function TravelPage() {
                         </div>
                     </div>
                 )}
+                <div className='w-[70%] '>
+                    {activeIndex ===2 && <BusBookingPage />}
+                </div>
+                <div className='w-[70%] '>
+                    {activeIndex ===3 && <TrainBookingPage />}
+                </div>
+                <div className='w-[70%] '>
+                    {activeIndex ===4 && <MetroBookingPage />}
+                </div>
+                <div className='w-[70%] '>
+                    {activeIndex ===5 && <HotelBookingPage />}
+                </div>
             </div>
 
             <div className="w-[100%] flex flex-col items-center justify-center">
-                <div className="recharge-form-container w-[100%] h-max m-10 p-10">
+                <div className="recharge-form-container w-[100%] h-max  p-3">
                     {activeIndex === 0 && <MovieBrowsingPage />}
-                    {activeIndex === 1 && <FlightsSchedule flightSchedules={flightSchedules} />}
+                    <div className='flex justify-center p-4'>
+                        {activeIndex===1&& <FlightFilters/>}
+                        {activeIndex === 1 && <FlightsSchedule flightSchedules={flightSchedules} />}
+
+                    </div>
+                    <div className='flex justify-center p-4'>
+                        {activeIndex===2&& <BusFilters/>}
+                        {activeIndex === 2 && <BusSchedule busSchedules={busSchedules} />}
+
+                    </div>
+                    <div className='flex justify-center p-4'>
+                        {activeIndex===3&& <TrainFilters/>}
+                        {activeIndex === 3 && <TrainSchedule trainSchedules={trainSchedules} />}
+
+                    </div>
+                    <div className='flex justify-center p-4'>
+                        {activeIndex===4&& <MetroFilters/>}
+                        {activeIndex === 4 && <MetroSchedule metroSchedules={metroSchedules} />}
+
+                    </div>
+                    <div className='flex justify-center p-4'>
+                        {activeIndex===5&& <HotelRoomFilters/>}
+                        {activeIndex === 5 && <HotelRoomCards hotelRooms={hotelRooms} />}
+
+                    </div>
                 </div>
             </div>
         </>
@@ -360,6 +683,271 @@ function FlightBookingPage() {
 
     return (
         <>
+            <div className="w-full p-6 bg-white rounded-lg shadow-lg">
+                <div className="flex items-center justify-evenly space-x-4">
+                    {/* One Way / Round Trip */}
+                    <div className="flex items-center space-x-4">
+                        <label className="flex items-center space-x-1">
+                            <input type="radio" name="trip" defaultChecked />
+                            <span className="text-gray-700">One Way</span>
+                        </label>
+                        <label className="flex items-center space-x-1">
+                            <input type="radio" name="trip" />
+                            <span className="text-gray-700">Round Trip</span>
+                        </label>
+                    </div>
+
+                    {/* From and To Locations */}
+                    <div className="flex items-center space-x-6">
+                        <div>
+                            <label className="block text-sm text-gray-500">From</label>
+                            <input
+                                type="text"
+                                placeholder="DEL"
+                                className="border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg w-20 text-gray-900"
+                            />
+                            <p className="text-sm text-gray-400">Delhi</p>
+                        </div>
+                        <span className="text-2xl text-gray-500">↔</span>
+                        <div>
+                            <label className="block text-sm text-gray-500">To</label>
+                            <input
+                                type="text"
+                                placeholder="BOM"
+                                className="border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg w-20 text-gray-900"
+                            />
+                            <p className="text-sm text-gray-400">Mumbai, Maharashtra</p>
+                        </div>
+                    </div>
+
+                    {/* Departure Date */}
+                    <div>
+                        <label className="block text-sm text-gray-500">Departure Date</label>
+                        <input
+                            type="date"
+                            className="border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg text-gray-900"
+                        />
+                        <p className="text-sm text-gray-400">Save More</p>
+                    </div>
+
+                    {/* Add Return */}
+                    <div>
+                        <label className="block text-sm text-gray-500">&nbsp;</label>
+                        <p className="text-blue-500 cursor-pointer hover:underline text-lg">+ Add Return</p>
+                    </div>
+
+                    {/* Travellers & Cabin Class */}
+                    <div>
+                        <label className="block text-sm text-gray-500">Travellers & Cabin Class</label>
+                        <input
+                            type="text"
+                            placeholder="1 Traveller"
+                            className="border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg text-gray-900"
+                        />
+                        <p className="text-sm text-gray-400">Economy</p>
+                    </div>
+
+                    {/* Search Button */}
+                    <button
+                        className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg text-lg"
+                        onClick={handleSearchClick} // Handle search button click
+                    >
+                        Search Flights
+                    </button>
+                </div>
+
+                {/* Special Fares */}
+                <div className="flex justify-center space-x-4 mt-4">
+                    <button className="border rounded-full px-4 py-2 text-gray-500 hover:bg-gray-100">
+                        Armed Forces
+                    </button>
+                    <button className="border rounded-full px-4 py-2 text-gray-500 hover:bg-gray-100">
+                        Student
+                    </button>
+                    <button className="border rounded-full px-4 py-2 text-gray-500 hover:bg-gray-100">
+                        Senior Citizen
+                    </button>
+                </div>
+            </div>
+
+        {/* Conditional rendering for flight schedule */}
+
+        </>
+    );
+}
+
+function FlightsSchedule({ flightSchedules }) {
+    return (
+        <div className="mt-6 w-[60%]  bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold text-gray-700">Available Flight Schedules</h3>
+            <div className="mt-4 space-y-4">
+                {flightSchedules.map((schedule, index) => (
+                    <div key={index} className="flex justify-between hover:bg-slate-50 items-center border-b py-4">
+                        <div className="flex space-x-6">
+                            <div>
+                                <p className="text-lg text-gray-800 font-semibold">{schedule.airline}</p>
+                                <p className="text-sm text-gray-500">{schedule.departure} - {schedule.arrival}</p>
+                                <p className="text-sm text-gray-500">{schedule.duration}</p>
+                                <p className="text-sm text-gray-500">{schedule.stops}</p>
+                            </div>
+                        </div>
+                        <div className="text-right">
+                            <p className="text-lg text-gray-800 font-bold">{schedule.price}</p>
+                            <button className="mt-2 py-1 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                                View Fare
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+
+const FlightFilters = () => {
+    const [nonRefundable, setNonRefundable] = useState(false);
+    const [selectedStops, setSelectedStops] = useState({ nonStop: false, oneStop: false, twoStop: false });
+    const [selectedAirlines, setSelectedAirlines] = useState({
+        IndiGo: false,
+        AirIndia: false,
+        AkasaAir: false,
+    });
+    const [arrivalTime, setArrivalTime] = useState([new Date('2025-01-07T04:20:00'), new Date('2025-01-08T02:50:00')]);
+
+    const handleStopChange = (e) => {
+        const { name, checked } = e.target;
+        setSelectedStops((prevStops) => ({
+            ...prevStops,
+            [name]: checked,
+        }));
+    };
+
+    const handleAirlineChange = (e) => {
+        const { name, checked } = e.target;
+        setSelectedAirlines((prevAirlines) => ({
+            ...prevAirlines,
+            [name]: checked,
+        }));
+    };
+
+    const handleArrivalTimeChange = (e) => {
+        const [startTime, endTime] = e.target.value.split(',');
+        setArrivalTime([new Date(startTime), new Date(endTime)]);
+    };
+
+    return (
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold text-gray-700">Filters</h3>
+
+            <div className="mt-4">
+                <div className="flex items-center justify-between">
+                    <label className="text-sm text-gray-700">Hide Non-refundable Flights</label>
+                    <input
+                        type="checkbox"
+                        checked={nonRefundable}
+                        onChange={() => setNonRefundable(!nonRefundable)}
+                        className="h-5 w-5"
+                    />
+                </div>
+
+                <div className="mt-4">
+                    <p className="font-semibold text-gray-700">Stops</p>
+                    <div className="space-y-2">
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="nonStop"
+                                checked={selectedStops.nonStop}
+                                onChange={handleStopChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Non-stop</span> - ₹5,499
+                        </label>
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="oneStop"
+                                checked={selectedStops.oneStop}
+                                onChange={handleStopChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">1 Stop</span> - ₹5,670
+                        </label>
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="twoStop"
+                                checked={selectedStops.twoStop}
+                                onChange={handleStopChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">2 Stops</span> - ₹6,200
+                        </label>
+                    </div>
+                </div>
+
+                <div className="mt-4">
+                    <p className="font-semibold text-gray-700">Airlines</p>
+                    <div className="space-y-2">
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="IndiGo"
+                                checked={selectedAirlines.IndiGo}
+                                onChange={handleAirlineChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">IndiGo (40)</span> - ₹5,499
+                        </label>
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="AirIndia"
+                                checked={selectedAirlines.AirIndia}
+                                onChange={handleAirlineChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Air India (67)</span> - ₹5,555
+                        </label>
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="AkasaAir"
+                                checked={selectedAirlines.AkasaAir}
+                                onChange={handleAirlineChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Akasa Air (3)</span> - ₹5,654
+                        </label>
+                        <div className="mt-2 text-blue-500">+ 2 more</div>
+                    </div>
+                </div>
+
+                <div className="mt-4">
+                    <p className="font-semibold text-gray-700">Arrival to BOM</p>
+                    <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value={(arrivalTime[0].getTime() - new Date('2025-01-07T04:20:00').getTime()) / (new Date('2025-01-08T02:50:00').getTime() - new Date('2025-01-07T04:20:00').getTime())}
+                        onChange={handleArrivalTimeChange}
+                        className="w-full"
+                    />
+                    <div className="flex justify-between text-sm text-gray-600">
+                        <span>07 Jan 04:20 AM</span>
+                        <span>08 Jan 02:50 AM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+
+function BusBookingPage() {
+    return (
         <div className="w-full p-6 bg-white rounded-lg shadow-lg">
             <div className="flex items-center justify-evenly space-x-4">
                 {/* One Way / Round Trip */}
@@ -380,17 +968,17 @@ function FlightBookingPage() {
                         <label className="block text-sm text-gray-500">From</label>
                         <input
                             type="text"
-                            placeholder="DEL"
+                            placeholder="Delhi"
                             className="border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg w-20 text-gray-900"
                         />
-                        <p className="text-sm text-gray-400">Delhi</p>
+                        <p className="text-sm text-gray-400">New Delhi, India</p>
                     </div>
                     <span className="text-2xl text-gray-500">↔</span>
                     <div>
                         <label className="block text-sm text-gray-500">To</label>
                         <input
                             type="text"
-                            placeholder="BOM"
+                            placeholder="Mumbai"
                             className="border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg w-20 text-gray-900"
                         />
                         <p className="text-sm text-gray-400">Mumbai, Maharashtra</p>
@@ -413,23 +1001,23 @@ function FlightBookingPage() {
                     <p className="text-blue-500 cursor-pointer hover:underline text-lg">+ Add Return</p>
                 </div>
 
-                {/* Travellers & Cabin Class */}
+                {/* Passengers & Bus Class */}
                 <div>
-                    <label className="block text-sm text-gray-500">Travellers & Cabin Class</label>
+                    <label className="block text-sm text-gray-500">Passengers & Bus Class</label>
                     <input
                         type="text"
-                        placeholder="1 Traveller"
+                        placeholder="1 Passenger"
                         className="border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg text-gray-900"
                     />
-                    <p className="text-sm text-gray-400">Economy</p>
+                    <p className="text-sm text-gray-400">AC Sleeper</p>
                 </div>
 
                 {/* Search Button */}
                 <button
                     className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg text-lg"
-                    onClick={handleSearchClick} // Handle search button click
+                    // Handle search button click
                 >
-                    Search Flights
+                    Search Buses
                 </button>
             </div>
 
@@ -447,24 +1035,29 @@ function FlightBookingPage() {
             </div>
         </div>
 
-        {/* Conditional rendering for flight schedule */}
-
-        </>
     );
 }
-
-function FlightsSchedule({ flightSchedules }) {
+function BusSchedule({ busSchedules }) {
     return (
-        <div className="mt-6 bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-700">Available Flight Schedules</h3>
+        <div className="mt-6 w-[60%] bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold text-gray-700">Available Bus Schedules</h3>
             <div className="mt-4 space-y-4">
-                {flightSchedules.map((schedule, index) => (
-                    <div key={index} className="flex justify-between items-center border-b py-2">
-                        <div>
-                            <p className="text-lg text-gray-800">{schedule.airline}</p>
-                            <p className="text-sm text-gray-500">{schedule.departure}</p>
+                {busSchedules.map((schedule, index) => (
+                    <div key={index} className="flex justify-between hover:bg-slate-50 items-center border-b py-4">
+                        <div className="flex space-x-6">
+                            <div>
+                                <p className="text-lg text-gray-800 font-semibold">{schedule.busOperator}</p>
+                                <p className="text-sm text-gray-500">{schedule.departure} - {schedule.arrival}</p>
+                                <p className="text-sm text-gray-500">{schedule.busType}</p>
+                                <p className="text-sm text-gray-500">{schedule.stops} stops</p>
+                            </div>
                         </div>
-                        <p className="text-lg text-gray-800">{schedule.price}</p>
+                        <div className="text-right">
+                            <p className="text-lg text-gray-800 font-bold">{schedule.price}</p>
+                            <button className="mt-2 py-1 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                                View Fare
+                            </button>
+                        </div>
                     </div>
                 ))}
             </div>
@@ -472,3 +1065,976 @@ function FlightsSchedule({ flightSchedules }) {
     );
 }
 
+const BusFilters = () => {
+    const [nonAC, setNonAC] = useState(false);
+    const [selectedBusTypes, setSelectedBusTypes] = useState({ AC: false, NonAC: false, Sleeper: false });
+    const [selectedOperators, setSelectedOperators] = useState({
+        Volvo: false,
+        ShreeTravels: false,
+        KSRTC: false,
+    });
+    const [departureTime, setDepartureTime] = useState([new Date('2025-01-07T04:20:00'), new Date('2025-01-08T02:50:00')]);
+
+    const handleBusTypeChange = (e) => {
+        const { name, checked } = e.target;
+        setSelectedBusTypes((prevBusTypes) => ({
+            ...prevBusTypes,
+            [name]: checked,
+        }));
+    };
+
+    const handleOperatorChange = (e) => {
+        const { name, checked } = e.target;
+        setSelectedOperators((prevOperators) => ({
+            ...prevOperators,
+            [name]: checked,
+        }));
+    };
+
+    const handleDepartureTimeChange = (e) => {
+        const [startTime, endTime] = e.target.value.split(',');
+        setDepartureTime([new Date(startTime), new Date(endTime)]);
+    };
+
+    return (
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold text-gray-700">Bus Filters</h3>
+
+            <div className="mt-4">
+                <div className="flex items-center justify-between">
+                    <label className="text-sm text-gray-700">Hide Non-AC Buses</label>
+                    <input
+                        type="checkbox"
+                        checked={nonAC}
+                        onChange={() => setNonAC(!nonAC)}
+                        className="h-5 w-5"
+                    />
+                </div>
+
+                <div className="mt-4">
+                    <p className="font-semibold text-gray-700">Bus Type</p>
+                    <div className="space-y-2">
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="AC"
+                                checked={selectedBusTypes.AC}
+                                onChange={handleBusTypeChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">AC</span> - ₹1,500
+                        </label>
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="NonAC"
+                                checked={selectedBusTypes.NonAC}
+                                onChange={handleBusTypeChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Non-AC</span> - ₹1,000
+                        </label>
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="Sleeper"
+                                checked={selectedBusTypes.Sleeper}
+                                onChange={handleBusTypeChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Sleeper</span> - ₹1,200
+                        </label>
+                    </div>
+                </div>
+
+                <div className="mt-4">
+                    <p className="font-semibold text-gray-700">Bus Operators</p>
+                    <div className="space-y-2">
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="Volvo"
+                                checked={selectedOperators.Volvo}
+                                onChange={handleOperatorChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Volvo</span> - ₹1,500
+                        </label>
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="ShreeTravels"
+                                checked={selectedOperators.ShreeTravels}
+                                onChange={handleOperatorChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Shree Travels</span> - ₹1,200
+                        </label>
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="KSRTC"
+                                checked={selectedOperators.KSRTC}
+                                onChange={handleOperatorChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">KSRTC</span> - ₹1,000
+                        </label>
+                        <div className="mt-2 text-blue-500">+ 3 more</div>
+                    </div>
+                </div>
+
+                <div className="mt-4">
+                    <p className="font-semibold text-gray-700">Departure Time</p>
+                    <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value={(departureTime[0].getTime() - new Date('2025-01-07T04:20:00').getTime()) / (new Date('2025-01-08T02:50:00').getTime() - new Date('2025-01-07T04:20:00').getTime())}
+                        onChange={handleDepartureTimeChange}
+                        className="w-full"
+                    />
+                    <div className="flex justify-between text-sm text-gray-600">
+                        <span>07 Jan 04:20 AM</span>
+                        <span>08 Jan 02:50 AM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+function TrainBookingPage() {
+    return (
+        <div className="w-full p-6 bg-white rounded-lg shadow-lg">
+            <div className="flex items-center justify-evenly space-x-4">
+                {/* One Way / Round Trip */}
+                <div className="flex items-center space-x-4">
+                    <label className="flex items-center space-x-1">
+                        <input type="radio" name="trip" defaultChecked />
+                        <span className="text-gray-700">One Way</span>
+                    </label>
+                    <label className="flex items-center space-x-1">
+                        <input type="radio" name="trip" />
+                        <span className="text-gray-700">Round Trip</span>
+                    </label>
+                </div>
+
+                {/* From and To Locations */}
+                <div className="flex items-center space-x-6">
+                    <div>
+                        <label className="block text-sm text-gray-500">From</label>
+                        <input
+                            type="text"
+                            placeholder="Delhi"
+                            className="border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg w-20 text-gray-900"
+                        />
+                        <p className="text-sm text-gray-400">New Delhi, India</p>
+                    </div>
+                    <span className="text-2xl text-gray-500">↔</span>
+                    <div>
+                        <label className="block text-sm text-gray-500">To</label>
+                        <input
+                            type="text"
+                            placeholder="Mumbai"
+                            className="border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg w-20 text-gray-900"
+                        />
+                        <p className="text-sm text-gray-400">Mumbai, Maharashtra</p>
+                    </div>
+                </div>
+
+                {/* Departure Date */}
+                <div>
+                    <label className="block text-sm text-gray-500">Departure Date</label>
+                    <input
+                        type="date"
+                        className="border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg text-gray-900"
+                    />
+                    <p className="text-sm text-gray-400">Save More</p>
+                </div>
+
+                {/* Add Return */}
+                <div>
+                    <label className="block text-sm text-gray-500">&nbsp;</label>
+                    <p className="text-blue-500 cursor-pointer hover:underline text-lg">+ Add Return</p>
+                </div>
+
+                {/* Passengers & Train Class */}
+                <div>
+                    <label className="block text-sm text-gray-500">Passengers & Train Class</label>
+                    <input
+                        type="text"
+                        placeholder="1 Passenger"
+                        className="border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg text-gray-900"
+                    />
+                    <p className="text-sm text-gray-400">AC Sleeper, First Class, Second Class</p>
+                </div>
+
+                {/* Train Type */}
+                <div>
+                    <label className="block text-sm text-gray-500">Train Type</label>
+                    <select className="border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg text-gray-900">
+                        <option value="superFast">Superfast</option>
+                        <option value="express">Express</option>
+                        <option value="mail">Mail</option>
+                        <option value="local">Local</option>
+                    </select>
+                </div>
+
+                {/* Search Button */}
+                <button
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg text-lg"
+                    // Handle search button click
+                >
+                    Search Trains
+                </button>
+            </div>
+
+            {/* Special Fares */}
+            <div className="flex justify-center space-x-4 mt-4">
+                <button className="border rounded-full px-4 py-2 text-gray-500 hover:bg-gray-100">
+                    Armed Forces
+                </button>
+                <button className="border rounded-full px-4 py-2 text-gray-500 hover:bg-gray-100">
+                    Student
+                </button>
+                <button className="border rounded-full px-4 py-2 text-gray-500 hover:bg-gray-100">
+                    Senior Citizen
+                </button>
+                <button className="border rounded-full px-4 py-2 text-gray-500 hover:bg-gray-100">
+                    Tatkal
+                </button>
+            </div>
+
+            {/* Seat Preference */}
+            <div className="mt-4 flex flex-col items-center">
+                <label className="block text-sm text-gray-500">Seat Preference</label>
+                <div className='flex  justify-center space-x-4'>
+                    <label className="flex items-center space-x-1">
+                        <input type="radio" name="seatPreference" />
+                        <span className="text-gray-700">Window</span>
+                    </label>
+                    <label className="flex items-center space-x-1">
+                        <input type="radio" name="seatPreference" />
+                        <span className="text-gray-700">Aisle</span>
+                    </label>
+                    <label className="flex items-center space-x-1">
+                        <input type="radio" name="seatPreference" />
+                        <span className="text-gray-700">Middle</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    );
+}
+function TrainSchedule({ trainSchedules }) {
+    return (
+        <div className="mt-6 w-[60%] bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold text-gray-700">Available Train Schedules</h3>
+            <div className="mt-4 space-y-4">
+                {trainSchedules.map((schedule, index) => (
+                    <div key={index} className="flex justify-between hover:bg-slate-50 items-center border-b py-4">
+                        <div className="flex space-x-6">
+                            <div>
+                                <p className="text-lg text-gray-800 font-semibold">{schedule.trainName}</p>
+                                <p className="text-sm text-gray-500">
+                                    {schedule.departureTime} - {schedule.arrivalTime}
+                                </p>
+                                <p className="text-sm text-gray-500">{schedule.trainType}</p>
+                                <p className="text-sm text-gray-500">
+                                    {schedule.stops} {schedule.stops === 1 ? "stop" : "stops"}
+                                </p>
+                                <p className="text-sm text-gray-500">Duration: {schedule.duration}</p>
+                            </div>
+                        </div>
+                        <div className="text-right">
+                            <p className="text-lg text-gray-800 font-bold">{schedule.price}</p>
+                            <button className="mt-2 py-1 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+const TrainFilters = () => {
+    const [selectedTrainTypes, setSelectedTrainTypes] = useState({ Express: false, Superfast: false, Sleeper: false, AC: false });
+    const [selectedOperators, setSelectedOperators] = useState({
+        IndianRailways: false,
+        Duronto: false,
+        Rajdhani: false,
+    });
+    const [departureTime, setDepartureTime] = useState([new Date('2025-01-07T04:00:00'), new Date('2025-01-08T02:00:00')]);
+
+    const handleTrainTypeChange = (e) => {
+        const { name, checked } = e.target;
+        setSelectedTrainTypes((prevTrainTypes) => ({
+            ...prevTrainTypes,
+            [name]: checked,
+        }));
+    };
+
+    const handleOperatorChange = (e) => {
+        const { name, checked } = e.target;
+        setSelectedOperators((prevOperators) => ({
+            ...prevOperators,
+            [name]: checked,
+        }));
+    };
+
+    const handleDepartureTimeChange = (e) => {
+        const [startTime, endTime] = e.target.value.split(',');
+        setDepartureTime([new Date(startTime), new Date(endTime)]);
+    };
+
+    return (
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold text-gray-700">Train Filters</h3>
+
+            <div className="mt-4">
+                <div>
+                    <p className="font-semibold text-gray-700">Train Type</p>
+                    <div className="space-y-2">
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="Express"
+                                checked={selectedTrainTypes.Express}
+                                onChange={handleTrainTypeChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Express</span>
+                        </label>
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="Superfast"
+                                checked={selectedTrainTypes.Superfast}
+                                onChange={handleTrainTypeChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Superfast</span>
+                        </label>
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="Sleeper"
+                                checked={selectedTrainTypes.Sleeper}
+                                onChange={handleTrainTypeChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Sleeper</span>
+                        </label>
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="AC"
+                                checked={selectedTrainTypes.AC}
+                                onChange={handleTrainTypeChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">AC</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div className="mt-4">
+                    <p className="font-semibold text-gray-700">Train Operators</p>
+                    <div className="space-y-2">
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="IndianRailways"
+                                checked={selectedOperators.IndianRailways}
+                                onChange={handleOperatorChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Indian Railways</span>
+                        </label>
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="Duronto"
+                                checked={selectedOperators.Duronto}
+                                onChange={handleOperatorChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Duronto</span>
+                        </label>
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="Rajdhani"
+                                checked={selectedOperators.Rajdhani}
+                                onChange={handleOperatorChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Rajdhani</span>
+                        </label>
+                        <div className="mt-2 text-blue-500">+ 3 more</div>
+                    </div>
+                </div>
+
+                <div className="mt-4">
+                    <p className="font-semibold text-gray-700">Departure Time</p>
+                    <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value={(departureTime[0].getTime() - new Date('2025-01-07T04:00:00').getTime()) / (new Date('2025-01-08T02:00:00').getTime() - new Date('2025-01-07T04:00:00').getTime())}
+                        onChange={handleDepartureTimeChange}
+                        className="w-full"
+                    />
+                    <div className="flex justify-between text-sm text-gray-600">
+                        <span>07 Jan 04:00 AM</span>
+                        <span>08 Jan 02:00 AM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+function MetroBookingPage() {
+    return (
+        <div className="w-full p-6 bg-white rounded-lg shadow-lg">
+            <div className="flex items-center justify-evenly space-x-4">
+                {/* One Way / Round Trip */}
+                <div className="flex items-center space-x-4">
+                    <label className="flex items-center space-x-1">
+                        <input type="radio" name="trip" defaultChecked />
+                        <span className="text-gray-700">One Way</span>
+                    </label>
+                    <label className="flex items-center space-x-1">
+                        <input type="radio" name="trip" />
+                        <span className="text-gray-700">Round Trip</span>
+                    </label>
+                </div>
+
+                {/* From and To Locations */}
+                <div className="flex items-center space-x-6">
+                    <div>
+                        <label className="block text-sm text-gray-500">From</label>
+                        <select
+                            className="border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg text-gray-900"
+                        >
+                            <option value="Delhi">Delhi</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Bangalore">Bangalore</option>
+                            <option value="Chennai">Chennai</option>
+                            <option value="Hyderabad">Hyderabad</option>
+                            <option value="Kolkata">Kolkata</option>
+                        </select>
+                    </div>
+                    <span className="text-2xl text-gray-500">↔</span>
+                    <div>
+                        <label className="block text-sm text-gray-500">To</label>
+                        <select
+                            className="border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg text-gray-900"
+                        >
+                            <option value="Delhi">Delhi</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Bangalore">Bangalore</option>
+                            <option value="Chennai">Chennai</option>
+                            <option value="Hyderabad">Hyderabad</option>
+                            <option value="Kolkata">Kolkata</option>
+                        </select>
+                    </div>
+                </div>
+
+                {/* Departure Date */}
+                <div>
+                    <label className="block text-sm text-gray-500">Departure Date</label>
+                    <input
+                        type="date"
+                        className="border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg text-gray-900"
+                    />
+                </div>
+
+                {/* Add Return */}
+                <div>
+                    <label className="block text-sm text-gray-500">&nbsp;</label>
+                    <p className="text-blue-500 cursor-pointer hover:underline text-lg">+ Add Return</p>
+                </div>
+
+                {/* Number of Passengers */}
+                <div>
+                    <label className="block text-sm text-gray-500">Passengers</label>
+                    <input
+                        type="number"
+                        min="1"
+                        max="10"
+                        placeholder="1"
+                        className="border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg text-gray-900"
+                    />
+                </div>
+
+                {/* Search Button */}
+                <button
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg text-lg"
+                    // Handle search button click
+                >
+                    Search Metro
+                </button>
+            </div>
+
+            {/* Seat Preference */}
+            <div className="mt-6 flex flex-col items-center">
+                <label className="block text-sm text-gray-500">Seat Preference</label>
+                <div className="flex justify-center space-x-4">
+                    <label className="flex items-center space-x-1">
+                        <input type="radio" name="seatPreference" />
+                        <span className="text-gray-700">Window</span>
+                    </label>
+                    <label className="flex items-center space-x-1">
+                        <input type="radio" name="seatPreference" />
+                        <span className="text-gray-700">Aisle</span>
+                    </label>
+                    <label className="flex items-center space-x-1">
+                        <input type="radio" name="seatPreference" />
+                        <span className="text-gray-700">No Preference</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    );
+}
+function MetroSchedule({ metroSchedules }) {
+    return (
+        <div className="mt-6 w-[60%] bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold text-gray-700">Available Metro Schedules</h3>
+            <div className="mt-4 space-y-4">
+                {metroSchedules.map((schedule, index) => (
+                    <div key={index} className="flex justify-between hover:bg-slate-50 items-center border-b py-4">
+                        <div className="flex space-x-6">
+                            <div>
+                                <p className="text-lg text-gray-800 font-semibold">{schedule.metroName}</p>
+                                <p className="text-sm text-gray-500">
+                                    {schedule.departureTime} - {schedule.arrivalTime}
+                                </p>
+                                <p className="text-sm text-gray-500">{schedule.metroType}</p>
+                                <p className="text-sm text-gray-500">
+                                    {schedule.stops} {schedule.stops === 1 ? "stop" : "stops"}
+                                </p>
+                                <p className="text-sm text-gray-500">Duration: {schedule.duration}</p>
+                            </div>
+                        </div>
+                        <div className="text-right">
+                            <p className="text-lg text-gray-800 font-bold">{schedule.price}</p>
+                            <button className="mt-2 py-1 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+function MetroFilters() {
+    const [selectedMetroTypes, setSelectedMetroTypes] = useState({ Express: false, Superfast: false, Sleeper: false, AC: false });
+    const [selectedOperators, setSelectedOperators] = useState({
+        DelhiMetro: false,
+        MumbaiMetro: false,
+        BangaloreMetro: false,
+    });
+    const [departureTime, setDepartureTime] = useState([new Date('2025-01-07T04:00:00'), new Date('2025-01-08T02:00:00')]);
+
+    const handleMetroTypeChange = (e) => {
+        const { name, checked } = e.target;
+        setSelectedMetroTypes((prevMetroTypes) => ({
+            ...prevMetroTypes,
+            [name]: checked,
+        }));
+    };
+
+    const handleOperatorChange = (e) => {
+        const { name, checked } = e.target;
+        setSelectedOperators((prevOperators) => ({
+            ...prevOperators,
+            [name]: checked,
+        }));
+    };
+
+    const handleDepartureTimeChange = (e) => {
+        const [startTime, endTime] = e.target.value.split(',');
+        setDepartureTime([new Date(startTime), new Date(endTime)]);
+    };
+
+    return (
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold text-gray-700">Metro Filters</h3>
+
+            <div className="mt-4">
+                <div>
+                    <p className="font-semibold text-gray-700">Metro Type</p>
+                    <div className="space-y-2">
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="Express"
+                                checked={selectedMetroTypes.Express}
+                                onChange={handleMetroTypeChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Express</span>
+                        </label>
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="Superfast"
+                                checked={selectedMetroTypes.Superfast}
+                                onChange={handleMetroTypeChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Superfast</span>
+                        </label>
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="Sleeper"
+                                checked={selectedMetroTypes.Sleeper}
+                                onChange={handleMetroTypeChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Sleeper</span>
+                        </label>
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="AC"
+                                checked={selectedMetroTypes.AC}
+                                onChange={handleMetroTypeChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">AC</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div className="mt-4">
+
+                    <p className="font-semibold text-gray-700">Metro Operators</p>
+
+                    <div className="space-y-2">
+                        
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="DelhiMetro"
+                                checked={selectedOperators.DelhiMetro}
+                                onChange={handleOperatorChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Delhi Metro</span>
+                        </label>
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="MumbaiMetro"
+                                checked={selectedOperators.MumbaiMetro}
+                                onChange={handleOperatorChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Mumbai Metro</span>
+                        </label>
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="BangaloreMetro"
+                                checked={selectedOperators.BangaloreMetro}
+                                onChange={handleOperatorChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">Bangalore Metro</span>
+                        </label>
+                        <div className="mt-2 text-blue-500">+ 3 more</div>
+                    </div>
+                </div>
+
+                <div className="mt-4">
+                    
+
+                    <p className="font-semibold text-gray-700">Departure Time</p>
+                    <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value={(departureTime[0].getTime() - new Date('2025-01-07T04:00:00').getTime()) / (new Date('2025-01-08T02:00:00').getTime() - new Date('2025-01-07T04:00:00').getTime())}
+                        onChange={handleDepartureTimeChange}
+                        className="w-full"
+                    />
+                    <div className="flex justify-between text-sm text-gray-600">
+                        <span>07 Jan 04:00 AM</span>
+                        <span>08 Jan 02:00 AM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function HotelBookingPage() {
+    return (
+        <div className="w-[60%] m-auto p-6 bg-white rounded-lg shadow-lg">
+            {/* Header */}
+            <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">Hotel Booking</h1>
+            
+            {/* Booking Form */}
+            <div className="space-y-6">
+                {/* Location */}
+                <div>
+                    <label className="block text-sm text-gray-500">Location</label>
+                    <input
+                        type="text"
+                        placeholder="Enter a city or hotel name"
+                        className="w-full border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg text-gray-900"
+                    />
+                </div>
+                
+                {/* Check-in and Check-out Dates */}
+                <div className="flex space-x-6">
+                    <div className="flex-1">
+                        <label className="block text-sm text-gray-500">Check-in Date</label>
+                        <input
+                            type="date"
+                            className="w-full border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg text-gray-900"
+                        />
+                    </div>
+                    <div className="flex-1">
+                        <label className="block text-sm text-gray-500">Check-out Date</label>
+                        <input
+                            type="date"
+                            className="w-full border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg text-gray-900"
+                        />
+                    </div>
+                </div>
+                
+                {/* Number of Guests */}
+                <div>
+                    <label className="block text-sm text-gray-500">Number of Guests</label>
+                    <input
+                        type="number"
+                        min="1"
+                        max="10"
+                        placeholder="1"
+                        className="w-full border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg text-gray-900"
+                    />
+                </div>
+
+                {/* Room Type */}
+                <div>
+                    <label className="block text-sm text-gray-500">Room Type</label>
+                    <select
+                        className="w-full border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg text-gray-900"
+                    >
+                        <option value="single">Single Room</option>
+                        <option value="double">Double Room</option>
+                        <option value="suite">Suite</option>
+                        <option value="family">Family Room</option>
+                    </select>
+                </div>
+                
+                {/* Special Requests */}
+                <div>
+                    <label className="block text-sm text-gray-500">Special Requests</label>
+                    <textarea
+                        placeholder="Add any special requests (e.g., late check-in, extra bed)"
+                        rows="3"
+                        className="w-full border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg text-gray-900"
+                    ></textarea>
+                </div>
+                
+                {/* Search Button */}
+                <button
+                    className="w-full bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg text-lg"
+                    // Handle search button click
+                >
+                    Search Hotels
+                </button>
+            </div>
+
+            {/* Popular Options */}
+            <div className="mt-6 space-y-4">
+                <h2 className="text-lg font-medium text-gray-800">Popular Filters</h2>
+                <div className="flex space-x-4">
+                    <button className="border rounded-full px-4 py-2 text-gray-500 hover:bg-gray-100">
+                        Free WiFi
+                    </button>
+                    <button className="border rounded-full px-4 py-2 text-gray-500 hover:bg-gray-100">
+                        Breakfast Included
+                    </button>
+                    <button className="border rounded-full px-4 py-2 text-gray-500 hover:bg-gray-100">
+                        Pool Access
+                    </button>
+                    <button className="border rounded-full px-4 py-2 text-gray-500 hover:bg-gray-100">
+                        Parking Available
+                    </button>
+                    <button className="border rounded-full px-4 py-2 text-gray-500 hover:bg-gray-100">
+                        Pet Friendly
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+function HotelRoomCards({ hotelRooms }) {
+    return (
+        <div className="mt-6 w-[60%] bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold text-gray-700">Available Hotel Rooms</h3>
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {hotelRooms.map((room, index) => (
+                    <div
+                        key={index}
+                        className="bg-white rounded-lg shadow-md border p-4 hover:shadow-lg transition"
+                    >
+                        {/* Room Details */}
+                        <div>
+                            <h4 className="text-lg font-bold text-gray-800">{room.roomName}</h4>
+                            <p className="text-sm text-gray-500">{room.roomType}</p>
+                            <p className="mt-2 text-sm text-gray-600">
+                                Amenities: {room.amenities.join(", ")}
+                            </p>
+                            <p className="mt-2 text-sm text-gray-600">
+                                Max Guests: {room.maxGuests}
+                            </p>
+                        </div>
+                        {/* Room Price and Book Button */}
+                        <div className="mt-4 flex justify-between items-center">
+                            <p className="text-lg font-bold text-gray-800">{room.price}</p>
+                            <button className="py-1 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+function HotelRoomFilters() {
+    const [selectedRoomTypes, setSelectedRoomTypes] = useState({
+        Single: false,
+        Double: false,
+        Suite: false,
+        Family: false,
+    });
+
+    const [selectedAmenities, setSelectedAmenities] = useState({
+        WiFi: false,
+        Breakfast: false,
+        Pool: false,
+        Gym: false,
+        Parking: false,
+    });
+
+    const [priceRange, setPriceRange] = useState([50, 500]); // Default price range: $50 - $500
+    const [guestCapacity, setGuestCapacity] = useState(1); // Minimum 1 guest
+
+    const handleRoomTypeChange = (e) => {
+        const { name, checked } = e.target;
+        setSelectedRoomTypes((prevRoomTypes) => ({
+            ...prevRoomTypes,
+            [name]: checked,
+        }));
+    };
+
+    const handleAmenitiesChange = (e) => {
+        const { name, checked } = e.target;
+        setSelectedAmenities((prevAmenities) => ({
+            ...prevAmenities,
+            [name]: checked,
+        }));
+    };
+
+    const handlePriceRangeChange = (e) => {
+        const [minPrice, maxPrice] = e.target.value.split(",").map(Number);
+        setPriceRange([minPrice, maxPrice]);
+    };
+
+    const handleGuestCapacityChange = (e) => {
+        setGuestCapacity(Number(e.target.value));
+    };
+
+    return (
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold text-gray-700">Hotel Room Filters</h3>
+
+            {/* Room Type Filters */}
+            <div className="mt-4">
+                <p className="font-semibold text-gray-700">Room Type</p>
+                <div className="space-y-2">
+                    {["Single", "Double", "Suite", "Family"].map((type) => (
+                        <label key={type} className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name={type}
+                                checked={selectedRoomTypes[type]}
+                                onChange={handleRoomTypeChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">{type}</span>
+                        </label>
+                    ))}
+                </div>
+            </div>
+
+            {/* Amenities Filters */}
+            <div className="mt-4">
+                <p className="font-semibold text-gray-700">Amenities</p>
+                <div className="space-y-2">
+                    {["WiFi", "Breakfast", "Pool", "Gym", "Parking"].map((amenity) => (
+                        <label key={amenity} className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name={amenity}
+                                checked={selectedAmenities[amenity]}
+                                onChange={handleAmenitiesChange}
+                                className="h-5 w-5"
+                            />
+                            <span className="ml-2 text-gray-700">{amenity}</span>
+                        </label>
+                    ))}
+                </div>
+            </div>
+
+            {/* Price Range Filter */}
+            <div className="mt-4">
+                <p className="font-semibold text-gray-700">Price Range</p>
+                <input
+                    type="range"
+                    min="50"
+                    max="500"
+                    step="10"
+                    value={priceRange.join(",")}
+                    onChange={handlePriceRangeChange}
+                    className="w-full"
+                />
+                <div className="flex justify-between text-sm text-gray-600">
+                    <span>${priceRange[0]}</span>
+                    <span>${priceRange[1]}</span>
+                </div>
+            </div>
+
+            {/* Guest Capacity Filter */}
+            <div className="mt-4">
+                <p className="font-semibold text-gray-700">Guest Capacity</p>
+                <input
+                    type="number"
+                    min="1"
+                    max="10"
+                    value={guestCapacity}
+                    onChange={handleGuestCapacityChange}
+                    className="border rounded w-16 px-2 py-1 text-gray-700"
+                />
+                <span className="ml-2 text-gray-600">guests</span>
+            </div>
+        </div>
+    );
+}
