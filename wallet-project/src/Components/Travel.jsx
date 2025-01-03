@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef,useEffect } from 'react';
 import Navheader from './Navheader';
 import AvengerEndgame from '../assets/AvengerEndgame.jpeg';
 import Avatar from '../assets/Avatar.jpeg';
@@ -12,6 +12,7 @@ import BusBooking from '../assets/BusBooking.svg';
 import TrainBooking from '../assets/TrainBooking.svg';
 import MetroBooking from '../assets/MetroBooking.svg';
 import HotelBooking from '../assets/HotelBooking.svg';
+import { useSearchParams } from 'react-router-dom';
 import './Styles.css';
 const busSchedules = [
     {
@@ -332,6 +333,7 @@ export default Travel;
 
 function TravelPage() {
     const [activeIndex, setActiveIndex] = useState(0); // Track active section
+    const [searchParams] = useSearchParams();
 
     const menuItems = [
         'Movie Tickets',
@@ -356,6 +358,12 @@ function TravelPage() {
         HotelBooking, // Hotel Rooms Background
     ];
 
+    useEffect(() => {
+        const indexFromParams = parseInt(searchParams.get('activeIndex'), 10);
+        if (!isNaN(indexFromParams) && indexFromParams >= 0 && indexFromParams < menuItems.length) {
+            setActiveIndex(indexFromParams);
+        }
+    }, [searchParams]);
     return (
         <>
             <nav className="recharge-nav-bar flex justify-evenly bg-[#4DA1A9] items-center text-white text-xl w-[100%] h-[5%]">

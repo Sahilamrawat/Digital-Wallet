@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navheader from './Navheader';
 import RechargeImage from '../assets/recharge-mobile.svg';
 import ElectricityImage from '../assets/Electricity.svg';
@@ -7,6 +7,8 @@ import WaterImage from '../assets/Water.svg';
 import EducationImage from '../assets/Education.svg';     
 import GasImage from '../assets/Gas.svg';     
 import BroadbandImage from '../assets/broadband.svg';
+import { useNavigate } from "react-router-dom";
+import { useSearchParams } from 'react-router-dom';
 function Recharge() {
   return (
     <div className="w-[100vw] h-[100vh] overflow-x-hidden">
@@ -20,7 +22,10 @@ export default Recharge;
 
 function RechargePage() {
   const [activeIndex, setActiveIndex] = useState(0); // Track active section
-  
+  const navigate = useNavigate();
+      const [searchParams] = useSearchParams();
+  // const initialIndex = location.state?.activeIndex || 0;
+
   const menuItems = [
     'Recharge Mobile',
     'Electricity Bill',
@@ -34,7 +39,12 @@ function RechargePage() {
   const handleItemClick = (index) => {
     setActiveIndex(index); // Set the active section
   };
-
+  useEffect(() => {
+      const indexFromParams = parseInt(searchParams.get('activeIndex'), 10);
+      if (!isNaN(indexFromParams) && indexFromParams >= 0 && indexFromParams < menuItems.length) {
+          setActiveIndex(indexFromParams);
+      }
+  }, [searchParams]);
   return (
     <>
       <nav className="recharge-nav-bar flex justify-evenly bg-[#4DA1A9] items-center text-white text-xl w-[100%] h-[5%] shadow-lg">
