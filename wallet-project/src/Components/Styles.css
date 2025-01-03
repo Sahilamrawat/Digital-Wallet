@@ -12,7 +12,14 @@
     cursor: pointer;
     
 }
+.recharge-nav-bar{
+  width: 100%;
 
+  position: sticky;
+  top: 56px; /* Adjust according to the first navbar height */
+  z-index: 9;
+
+}
 .nav-section{
     width: 100%;
     /* border-radius:5px ; */
@@ -29,6 +36,7 @@
   opacity: 10;
   padding: 3px 25px;
   border-radius: 5px;
+
 }
 
 .profile-dropdown.block {
@@ -38,7 +46,9 @@
 }
 
 /* Nav section */
-
+/* .booking-hero{
+  background-color: transparent;
+} */
 
 /* Dropdown list items */
 .profile-dropdown ul {

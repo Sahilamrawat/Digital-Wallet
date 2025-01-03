@@ -11,11 +11,11 @@ const ServicesDropDown = ({ isOpen }) => {
   return (
     <div className={`profile-dropdown ${isOpen ? 'block' : 'hidden'} w-[max] bg-white text-[#213555] absolute right--1 top-12 rounded-lg shadow-lg`}>
       <ul className="py-2 flex flex-col items-center">
-        <li onClick={()=>navigate('./send-money')}>Send Money</li>
+        <li onClick={()=>navigate('/send-money')}>Send Money</li>
         <hr />
-        <li >Recharge & Pay</li>
+        <li onClick={()=>navigate('/recharge')}>Recharge & Pay Bills</li>
         <hr />
-        <li>Travel & Entertainment</li>
+        <li onClick={()=>navigate('/travel')}>Travel & Entertainment</li>
         <hr />
 
       </ul>

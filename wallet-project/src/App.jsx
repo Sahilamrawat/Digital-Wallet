@@ -11,6 +11,8 @@ import Signup from './Components/Signup'
 
 import MyAccount from './Components/MyAccount'
 import SendMoney from './Components/SendMoney'
+import Recharge from './Components/Recharge'
+import Travel from './Components/Travel'
 function App() {
 
   
@@ -25,6 +27,8 @@ function App() {
           <Route path="/signup" element={<Signup/>}/>
           <Route path="/wallet" element={<MyAccount/>}/>
           <Route path="/send-money" element={<SendMoney/>}/>
+          <Route path="/recharge" element={<Recharge/>}/>
+          <Route path="/travel" element={<Travel/>}/>
         </Routes>
       </BrowserRouter>
     </div>
