@@ -86,7 +86,7 @@ function Navheader() {
           </li>
           
           
-          <li className="cursor-pointer hover:scale-105 transition-transform duration-100">About</li>
+          <li className="cursor-pointer hover:scale-105 transition-transform duration-100" onClick={()=>navigate('/about')}>About</li>
         </ul>
       </div>
       {loggedInUser && loggedInUser !== 'undefined' ? (

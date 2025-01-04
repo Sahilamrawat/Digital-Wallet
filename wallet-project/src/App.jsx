@@ -13,6 +13,9 @@ import MyAccount from './Components/MyAccount'
 import SendMoney from './Components/SendMoney'
 import Recharge from './Components/Recharge'
 import Travel from './Components/Travel'
+import Footer from './Components/Footer'
+import AboutPage from './Components/AboutPage'
+import WalletPerson from '../src/assets/WalletPerson.svg'
 function App() {
 
   
@@ -29,6 +32,7 @@ function App() {
           <Route path="/send-money" element={<SendMoney/>}/>
           <Route path="/recharge" element={<Recharge/>}/>
           <Route path="/travel" element={<Travel/>}/>
+          <Route path='/about' element={<AboutPage/>}/>
         </Routes>
       </BrowserRouter>
     </div>
@@ -40,6 +44,20 @@ function Home(){
       <Navheader />
       <Hero />
       <FeaturesSection />
+        <div className="  flex  items-center gap-5 border-b p-2 py-5">
+            
+      
+          <div className="m-auto">
+            <h1 className="font-bold text-[50px] text-[#2E5077]">"Your wallet, your world!"</h1>
+            <p>
+            Your wallet is the key to unlocking endless possibilities empower your world with every choice!
+            </p>
+          </div>
+          <div className="h-[400px]">
+            <img src={WalletPerson} className="w-[400px] h-[400px]" alt="hero" />
+          </div>
+        </div>
+      <Footer />
     </div>
 
   )

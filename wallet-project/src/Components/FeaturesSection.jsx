@@ -105,7 +105,7 @@ function FeaturesSection() {
       
       
     </div>
-    <div className="bg-[#F6F4F0] p-5  flex flex-col items-center">
+    <div className="bg-[#F6F4F0] p-8  flex flex-col items-center">
     <h1 className="text-[40px] ">Travel & Entertainment</h1>
 
     <div className="flex pb-8  mt-[40px] ">

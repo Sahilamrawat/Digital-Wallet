@@ -320,11 +320,13 @@ const hotelRooms = [
 ];
 
 import { act } from 'react';
+import Footer from './Footer';
 function Travel() {
     return (
       <div className="w-[100vw] h-[100vh] overflow-x-hidden">
         <Navheader />
         <TravelPage />
+        <Footer/>
       </div>
     );
   }

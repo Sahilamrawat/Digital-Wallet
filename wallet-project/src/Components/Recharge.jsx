@@ -5,15 +5,24 @@ import ElectricityImage from '../assets/Electricity.svg';
 import DTHImage from '../assets/DTH.svg';
 import WaterImage from '../assets/Water.svg';
 import EducationImage from '../assets/Education.svg';     
+import RechargeMobileImage from '../assets/RechargeMobile.svg';
+import ElectricityBillImage from '../assets/ElectricityBillImage.svg';
+import DthImage from '../assets/DthImage.svg';
+import WaterBillImage from '../assets/WaterBillImage.svg';
+import EducationFeeImage from '../assets/EducationFeeImage.svg';
+import BroadbandBillImage from '../assets/BroadbandBillImage.svg';
+import GasBillImage from '../assets/GasBillImage.svg';
 import GasImage from '../assets/Gas.svg';     
 import BroadbandImage from '../assets/broadband.svg';
 import { useNavigate } from "react-router-dom";
 import { useSearchParams } from 'react-router-dom';
+import Footer from './Footer';
 function Recharge() {
   return (
     <div className="w-[100vw] h-[100vh] overflow-x-hidden">
       <Navheader />
       <RechargePage />
+      <Footer/>
     </div>
   );
 }
@@ -36,6 +45,15 @@ function RechargePage() {
     'Broadband Bill',
   ];
 
+  const backgroundImages = [
+          RechargeMobileImage, 
+          ElectricityBillImage, 
+          DthImage, 
+          WaterBillImage,
+          EducationFeeImage, 
+          GasBillImage, 
+          BroadbandBillImage, 
+      ];
   const handleItemClick = (index) => {
     setActiveIndex(index); // Set the active section
   };
@@ -47,7 +65,7 @@ function RechargePage() {
   }, [searchParams]);
   return (
     <>
-      <nav className="recharge-nav-bar flex justify-evenly bg-[#4DA1A9] items-center text-white text-xl w-[100%] h-[5%] shadow-lg">
+      <nav className="recharge-nav-bar flex justify-evenly bg-[#4DA1A9] items-center text-white text-xl w-[100%] h-[5%] ">
         {menuItems.map((item, index) => (
           <p
             key={index}
@@ -62,14 +80,25 @@ function RechargePage() {
           </p>
         ))}
       </nav>
-      <div className='w-[100%] h-[40%] text-[100px] text-center items-center justify-center flex font-denk text-[#2E5077] hover:scale-105 transition-transform duration-300'>
-        {activeIndex === 0 && <h1>Recharge Mobile</h1>}
-        {activeIndex === 1 && <h1>Electricity Bill</h1>}
-        {activeIndex === 2 && <h1>DTH Recharge</h1>}
-        {activeIndex === 3 && <h1>Water Bill</h1>}
-        {activeIndex === 4 && <h1>Education Fee</h1>}
-        {activeIndex === 5 && <h1>Gas Bill</h1>}
-        {activeIndex === 6 && <h1>Broadband</h1>}
+      <div
+        className="bg-cover bg-left bg-[#4DA1A9] bg-no-repeat h-[70%] w-[100%] flex flex-col items-center space-y-10 justify-center"
+        style={{
+          backgroundImage: `url(${backgroundImages[activeIndex]})`, // Apply background dynamically
+          backgroundSize: 'contain', // Ensure the background covers the whole section
+          backgroundPosition: 'center', // Center the background image
+        }}
+      >
+        <h1
+          className="text-[100px] text-white hover:scale-105 transition-transform duration-500"
+        >
+          {activeIndex === 0 && "Recharge Mobile"}
+          {activeIndex === 1 && "Electricity Bill"}
+          {activeIndex === 2 && "DTH Recharge"}
+          {activeIndex === 3 && "Water Bill"}
+          {activeIndex === 4 && "Education Fee"}
+          {activeIndex === 5 && "Gas Bill"}
+          {activeIndex === 6 && "Broadband"}
+        </h1>
       </div>
       <div className="w-[100%] flex flex-col items-center justify-center">
         {/* Render the form based on the activeIndex */}

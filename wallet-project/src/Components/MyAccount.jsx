@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import MyWallet  from './MyWallet.jsx';
 import Profile from './Profile.jsx';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useSearchParams } from 'react-router-dom';
 
 function MyAccount() {
   return (
@@ -25,13 +26,19 @@ function WalletPage() {
   const [activeIndex, setActiveIndex] = React.useState(0); // Track active li index
   const [hoveredIndex, setHoveredIndex] = React.useState(null);
   const navigate = useNavigate(); 
+  const [searchParams] = useSearchParams();
   const menuItems = [
     { name: 'Profile' },
     { name: 'My Wallet' },
     { name: 'Logout' },
     { name: 'Home', icon: <ArrowBackIcon className="mr-2" /> },
   ];
-
+  useEffect(() => {
+        const indexFromParams = parseInt(searchParams.get('activeIndex'), 10);
+        if (!isNaN(indexFromParams) && indexFromParams >= 0 && indexFromParams < menuItems.length) {
+            setActiveIndex(indexFromParams);
+        }
+  }, [searchParams]);
   return (
     <div className="inside-container flex h-[100vh] ">
       <div className="main-wallet-dashboard bg-[#4DA1A9] rounded w-[20%] h-full flex flex-col">
@@ -58,7 +65,8 @@ function WalletPage() {
                 setActiveIndex(index);
                 if (index === 2) {
                   alert('Logging out ...');
-                  localStorage.setItem('loggedInUser', undefined);
+                  // localStorage.setItem('loggedInUser', undefined);
+                  localStorage.clear();
                   navigate('/login');
                 }
                 if (index === 3) {

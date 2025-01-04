@@ -55,6 +55,7 @@ function Profile() {
         // Only add userName if it is defined
         if (userDetails.userName !== undefined) {
             updatedData.userName = userDetails.userName;
+            localStorage.setItem('loggedInUser',userDetails.userName);
         }
     
         // Only add email if it is defined
@@ -77,7 +78,10 @@ function Profile() {
         if (userAddress !== undefined) {
             updatedData.address = userAddress;
         }
-        
+        if (upiId !== undefined) {
+            updatedData.wallet = { UpiId: upiId };
+            console.log("upi:",updatedData.wallet.UpiId);
+        }
     
         // Log the updatedData to check if all the fields are correctly added
         console.log("updatedData to send:", updatedData);
@@ -597,7 +601,7 @@ const ManageUpi = () => {
     const [newUpiId, setNewUpiId] = useState(upiId);
 
  
-    const handleSaveProfile = async () => {
+    const handleSaveWalletProfile = async () => {
         const updatedData = {};
 
         // Ensure UPI ID is added to the update data
@@ -636,7 +640,7 @@ const ManageUpi = () => {
         if (isUpiEditing) {
             // Save the updated UPI ID before exiting edit mode
             upiId = newUpiId.trim(); // Update the global variable
-            handleSaveProfile();
+            handleSaveWalletProfile();
         }
         setIsUpiEditing((prev) => !prev); // Toggle the edit mode
     };
