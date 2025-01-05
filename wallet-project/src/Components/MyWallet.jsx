@@ -128,7 +128,7 @@ function MyWallet() {
         </div>
         <div className="rounded-lg w-max m-[10px] flex justify-center items-center mr-[50px]">
           <button
-            className="add-money-btn bg-[#4DA1A9] w-[100px] h-[50px] rounded-lg text-white"
+            className="add-money-btn  w-[100px] h-[50px] rounded-lg text-white bg-[#2E5077] hover:scale-110 transition-transform duration-300"
             onClick={() => setIsModalOpen(true)}
           >
             Add Money

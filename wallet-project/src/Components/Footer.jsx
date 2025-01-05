@@ -48,7 +48,7 @@ function Footer() {
                     <a onClick={() => navigate('/wallet?activeIndex=1')}>My Wallet</a>
                     </p>
                     <p className='hover:text-blue-700 cursor-pointer'>
-                    <a>About</a>
+                    <a  onClick={() => navigate('/about')}>About</a>
                     </p>
                     
                 </div>

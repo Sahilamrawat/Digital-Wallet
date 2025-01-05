@@ -385,7 +385,7 @@ function TravelPage() {
             </nav>
 
             <div
-                className={`bg-cover bg-left bg-[#4DA1A9] bg-no-repeat h-[70%] w-[100%] flex flex-col items-center space-y-10 justify-center`}
+                className={`bg-cover bg-left bg-[#4DA1A9] bg-no-repeat h-[70%] w-[100%] flex flex-col items-center  justify-center`}
                 style={{
                     backgroundImage: `url(${backgroundImages[activeIndex]})`,
                     // Dynamically adjust other styles like background position or size
@@ -438,30 +438,30 @@ function TravelPage() {
                 </div>
             </div>
 
-            <div className="w-[100%] flex flex-col items-center justify-center">
-                <div className="recharge-form-container w-[100%] h-max  p-3">
+            <div className="w-[100%] flex flex-col items-center justify-center pt-10">
+                <div className="recharge-form-container w-[100%] h-max">
                     {activeIndex === 0 && <MovieBrowsingPage />}
-                    <div className='flex justify-center p-4'>
+                    <div className='flex justify-center'>
                         {activeIndex===1&& <FlightFilters/>}
                         {activeIndex === 1 && <FlightsSchedule flightSchedules={flightSchedules} />}
 
                     </div>
-                    <div className='flex justify-center p-4'>
+                    <div className='flex justify-center'>
                         {activeIndex===2&& <BusFilters/>}
                         {activeIndex === 2 && <BusSchedule busSchedules={busSchedules} />}
 
                     </div>
-                    <div className='flex justify-center p-4'>
+                    <div className='flex justify-center '>
                         {activeIndex===3&& <TrainFilters/>}
                         {activeIndex === 3 && <TrainSchedule trainSchedules={trainSchedules} />}
 
                     </div>
-                    <div className='flex justify-center p-4'>
+                    <div className='flex justify-center '>
                         {activeIndex===4&& <MetroFilters/>}
                         {activeIndex === 4 && <MetroSchedule metroSchedules={metroSchedules} />}
 
                     </div>
-                    <div className='flex justify-center p-4'>
+                    <div className='flex justify-center'>
                         {activeIndex===5&& <HotelRoomFilters/>}
                         {activeIndex === 5 && <HotelRoomCards hotelRooms={hotelRooms} />}
 
@@ -759,7 +759,7 @@ function FlightBookingPage() {
 
                     {/* Search Button */}
                     <button
-                        className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg text-lg"
+                        className="bg-[#2E5077] hover:bg-blue-700 text-white px-6 py-2 rounded-lg text-lg"
                         onClick={handleSearchClick} // Handle search button click
                     >
                         Search Flights
@@ -803,7 +803,7 @@ function FlightsSchedule({ flightSchedules }) {
                         </div>
                         <div className="text-right">
                             <p className="text-lg text-gray-800 font-bold">{schedule.price}</p>
-                            <button className="mt-2 py-1 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                            <button className="mt-2 py-1 px-4 bg-[#2E5077] text-white rounded-lg hover:bg-blue-700">
                                 View Fare
                             </button>
                         </div>
@@ -1024,7 +1024,7 @@ function BusBookingPage() {
 
                 {/* Search Button */}
                 <button
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg text-lg"
+                    className="bg-[#2E5077] hover:bg-blue-700 text-white px-6 py-2 rounded-lg text-lg"
                     // Handle search button click
                 >
                     Search Buses
@@ -1064,7 +1064,7 @@ function BusSchedule({ busSchedules }) {
                         </div>
                         <div className="text-right">
                             <p className="text-lg text-gray-800 font-bold">{schedule.price}</p>
-                            <button className="mt-2 py-1 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                            <button className="mt-2 py-1 px-4 bg-[#2E5077] text-white rounded-lg hover:bg-blue-700">
                                 View Fare
                             </button>
                         </div>
@@ -1294,7 +1294,7 @@ function TrainBookingPage() {
 
                 {/* Search Button */}
                 <button
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg text-lg"
+                    className="bg-[#2E5077] hover:bg-blue-700 text-white w-max px-6 py-2 rounded-lg text-lg"
                     // Handle search button click
                 >
                     Search Trains
@@ -1360,7 +1360,7 @@ function TrainSchedule({ trainSchedules }) {
                         </div>
                         <div className="text-right">
                             <p className="text-lg text-gray-800 font-bold">{schedule.price}</p>
-                            <button className="mt-2 py-1 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                            <button className="mt-2 py-1 px-4 bg-[#2E5077] text-white rounded-lg hover:bg-blue-700">
                                 Book Now
                             </button>
                         </div>
@@ -1585,7 +1585,7 @@ function MetroBookingPage() {
 
                 {/* Search Button */}
                 <button
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg text-lg"
+                    className="bg-[#2E5077] hover:bg-blue-700 text-white px-6 py-2 rounded-lg text-lg"
                     // Handle search button click
                 >
                     Search Metro
@@ -1635,7 +1635,7 @@ function MetroSchedule({ metroSchedules }) {
                         </div>
                         <div className="text-right">
                             <p className="text-lg text-gray-800 font-bold">{schedule.price}</p>
-                            <button className="mt-2 py-1 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                            <button className="mt-2 py-1 px-4 bg-[#2E5077] text-white rounded-lg hover:bg-blue-700">
                                 Book Now
                             </button>
                         </div>
@@ -1792,14 +1792,14 @@ function MetroFilters() {
 
 function HotelBookingPage() {
     return (
-        <div className="w-[60%] m-auto p-6 bg-white rounded-lg shadow-lg">
+        <div className="w-max flex flex-col items-center justify-center  m-auto p-6 bg-white rounded-lg shadow-lg">
             {/* Header */}
             <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">Hotel Booking</h1>
             
             {/* Booking Form */}
-            <div className="space-y-6">
+            <div className="space-x-10 flex items-start justify-center ">
                 {/* Location */}
-                <div>
+                <div >
                     <label className="block text-sm text-gray-500">Location</label>
                     <input
                         type="text"
@@ -1840,7 +1840,7 @@ function HotelBookingPage() {
 
                 {/* Room Type */}
                 <div>
-                    <label className="block text-sm text-gray-500">Room Type</label>
+                    <label className="block text-sm mb-1 text-gray-500">Room Type</label>
                     <select
                         className="w-full border-b-2 border-gray-300 outline-none focus:border-blue-400 text-lg text-gray-900"
                     >
@@ -1863,15 +1863,15 @@ function HotelBookingPage() {
                 
                 {/* Search Button */}
                 <button
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg text-lg"
+                    className=" bg-[#2E5077]  hover:bg-blue-700 text-white px-6 py-2 rounded-lg text-lg"
                     // Handle search button click
                 >
                     Search Hotels
-                </button>
+                </button>   
             </div>
 
             {/* Popular Options */}
-            <div className="mt-6 space-y-4">
+            <div className="mt-6 space-y-4 flex flex-col justify-center items-center">
                 <h2 className="text-lg font-medium text-gray-800">Popular Filters</h2>
                 <div className="flex space-x-4">
                     <button className="border rounded-full px-4 py-2 text-gray-500 hover:bg-gray-100">
